@@ -1,0 +1,17 @@
+Se ocupan dos programas. 
+    1. Motor SQL. Procesa los queries
+        El que se usará se llama: PostgreSQL
+
+    2. Interfaz gráfica. Escribe, corre y ve los resultados de los queries.
+        Se usa pgAdmin 
+
+Instalar se accede a: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+     se descarga y tiene ambos 1 y 2. 
+    se asigna una contraseña: La de mis bases de datos es: sql
+    puerto 5432
+    user: postgres
+    
+Se añaden los instaladores de acuerdo a lo que se vayan a utilizar. En stackbuilder yo utilicé el de desarrollo web, conexiones y los pgBouncer y Agent. 
+
+Se busca pgAdmin y se conectan al servidor se introduce la contraseña y se le da save password o recordar. 
+Ahora si listo para crear tablas y queries. 
