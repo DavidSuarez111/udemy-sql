@@ -1,0 +1,3 @@
+En pgAdmin. 
+La interfaz gráfica se registra todo procedimiento sobre la base de datos. 
+En query tool: click derecho sobre la base de datos. Se divide en 2 partes la superior es donde se hacen las consultas y la inferior donde se observan los resultados.

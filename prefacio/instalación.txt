@@ -15,3 +15,5 @@ Se añaden los instaladores de acuerdo a lo que se vayan a utilizar. En stackbui
 
 Se busca pgAdmin y se conectan al servidor se introduce la contraseña y se le da save password o recordar. 
 Ahora si listo para crear tablas y queries. 
+
+Segunda Parte. Google BigQuery. Google Cloud Platform. -on track- 
