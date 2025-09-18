@@ -1,0 +1,10 @@
+Descripción: Documento dedicado a explicar el órden del curso
+
+Se aprende por teoría que se repite e implementación en postgreSQL y luego google big query GBQ. 
+
+Temas
+Comandos fundamentales
+Filtrados y ordenamientos
+Agregaciones y agrupamientos 
+Uniones 
+Patrones y cadenas.

@@ -1,0 +1,4 @@
+El curso se compone de 20 capítulos. 
+Capítulo 1: Introducción. Se aborda la estructura y alcance del curso. Presente en el prefacio. 
+
+Capítulo 2: Instalación de postgreSQL y google Big Query. Presente en el prefacio. 
