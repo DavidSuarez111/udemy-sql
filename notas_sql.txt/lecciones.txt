@@ -4,3 +4,7 @@ Capítulo 1: Introducción. Se aborda la estructura y alcance del curso. Present
 Capítulo 2: Instalación de postgreSQL y google Big Query. Presente en el prefacio. 
     Big query. Hay costos por almacenado y por búsquedas. 
         Por lo tanto si haces una búsqueda la puedes guardar y asi no gastas múltiples veces por múltiples búsquedas solo preview. 
+
+Capítulo 3: Fundamental SQL statements. 
+    Crear bases de datos, insertar, importar, subir archivos, select, distinct, where, and-or-not, where, update, delete y alter. 
+    
