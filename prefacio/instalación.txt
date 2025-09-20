@@ -17,3 +17,7 @@ Se busca pgAdmin y se conectan al servidor se introduce la contraseña y se le d
 Ahora si listo para crear tablas y queries. 
 
 Segunda Parte. Google BigQuery. Google Cloud Platform. -on track- 
+
+acceder a google cloud Platform
+introducir información de pago igual no hacen cobros sino hasta acabar un periodo y si uno manualmente lo pide. 
+Ni siquiera al acabar el periodo de forma automática. 
