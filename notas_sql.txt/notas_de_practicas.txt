@@ -14,3 +14,12 @@ Constraints existentes:
     Foreign Key: Used to ensure referential integrity of the data. 
 Take personal: Ok los constraints son las notas o metadatos sobre las columnas. Que condiciones o tipos de datos generales tiene la tabla.
 tip: verbos en mayúsculas son mejores para diferenciar los queries. 
+
+    PRIMARY Key. 
+    Identifica de manera única cada fila en una tabla. 
+    Pueden ser una o más columnas, si más de una se conoce como clave compuesta. 
+    Foreign key. 
+    Identifica una columna de otra tabla (muy frecuentemente su clave primaria)
+    El objetivo de las claves foraneas es garantizar integridad de referencialidad de los datos. 
+
+    
