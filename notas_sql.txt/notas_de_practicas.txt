@@ -5,5 +5,12 @@ Create table "table_name"(
 "column 1" "data type for column 1" [], 
 "column 2" "data type for column 2" [], 
 [constraints]*opcional. acabar con semicolon ); 
-
+Constraints existentes:
+    NOT NULL: Ensures that a column cannot have NULL value
+    DEFAULT: Provides a default value for a column when none is specified
+    UNIQUE: Ensures all values in a column are different
+    CHECK: Makes sure that all values in a column satisfy certain criteria. 
+    Primary Key: Used to uniquely identify a row in the table
+    Foreign Key: Used to ensure referential integrity of the data. 
+Take personal: Ok los constraints son las notas o metadatos sobre las columnas. Que condiciones o tipos de datos generales tiene la tabla.
 tip: verbos en mayúsculas son mejores para diferenciar los queries. 
