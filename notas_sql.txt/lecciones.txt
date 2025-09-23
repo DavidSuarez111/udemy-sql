@@ -8,6 +8,13 @@ Capítulo 2: Instalación de postgreSQL y google Big Query. Presente en el prefa
 Capítulo 3: Fundamental SQL statements. 
     Crear bases de datos, insertar, importar, subir archivos, select, distinct, where, and-or-not, where, update, delete y alter. 
     
-    Click on create in the database under a server in pgAdmin to create a database. 
-    Name it. You can right click and delete it (drop botton). Bueno en inglés pero se entiende. 
-    tip: verbos en mayúsculas son mejores para diferenciar los queries. 
+        Click on create in the database under a server in pgAdmin to create a database. 
+        Name the database. You can right click and delete it (drop botton). Bueno en inglés pero se entiende. 
+        
+        tip: verbos en mayúsculas son mejores para diferenciar los queries. 
+
+    Crear la tabla. 
+        Click derecho en la base de datos seleccionar query tool. 
+        Comando create_table, 
+        definir las columnas, tipo de datos y consideraciones, 
+        revisar en schemas, tables y ahí aparece
