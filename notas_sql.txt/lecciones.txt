@@ -9,6 +9,5 @@ Capítulo 3: Fundamental SQL statements.
     Crear bases de datos, insertar, importar, subir archivos, select, distinct, where, and-or-not, where, update, delete y alter. 
     
     Click on create in the database under a server in pgAdmin to create a database. 
-    Name it. You can right click and delete it. Bueno en inglés pero se entiende. 
-
-    
+    Name it. You can right click and delete it (drop botton). Bueno en inglés pero se entiende. 
+    tip: verbos en mayúsculas son mejores para diferenciar los queries. 

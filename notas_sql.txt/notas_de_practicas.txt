@@ -1,0 +1,9 @@
+Lección 3 
+Hacer tablas de costumers, products, 
+Create table "table_name"( 
+#darle todas las columnas, darle todos los tipo de datos por columna. 
+"column 1" "data type for column 1" [], 
+"column 2" "data type for column 2" [], 
+[constraints]*opcional. acabar con semicolon ); 
+
+tip: verbos en mayúsculas son mejores para diferenciar los queries. 
