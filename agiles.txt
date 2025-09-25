@@ -1,0 +1,14 @@
+Planeación 
+1. Tomar lecciones de udemy y hacer notas. Mínimo 30 minutos por día.
+2. Publicaciones sobre el contenido aprendido.
+3. Hacer un proyecto SQL. -posible siguiente sprint-
+
+Daily SCRUM
+¿Qué haré? 
+1. ver lecciones. 
+2. Hacer notas.
+
+Sprint Review
+
+
+Sprint Retrospective

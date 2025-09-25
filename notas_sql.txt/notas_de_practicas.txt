@@ -1,3 +1,5 @@
+
+
 Lección 3 
 Hacer tablas de costumers, products, 
 Create table "table_name"( 
