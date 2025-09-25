@@ -1,4 +1,6 @@
 El curso se compone de 20 capítulos. 
+Este documento tiene el objetivo de mantenerse principalmente conceptual. 
+
 Capítulo 1: Introducción. Se aborda la estructura y alcance del curso. Presente en el prefacio. 
 
 Capítulo 2: Instalación de postgreSQL y google Big Query. Presente en el prefacio. 
@@ -18,3 +20,4 @@ Capítulo 3: Fundamental SQL statements.
         Comando create_table, 
         definir las columnas, tipo de datos y consideraciones, 
         revisar en schemas, tables y ahí aparece
+    

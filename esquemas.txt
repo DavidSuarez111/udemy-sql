@@ -1,0 +1,23 @@
+Estructura de los archivos
+    Descripción de archivo > Contenido
+
+---
+Prefacio
+    Documentos orientados a entender la estructura del curso, instalación de recursos y modalidad de uso de las herramientas. 
+
+Componentes SQL -documento uso.txt-
+    1. Interfaz gráfica
+    2. Query tool
+---
+
+---
+Notas SQL
+    Lecciones: material conceptual puntual o resumido. 
+    notas de practicas: material mixto. Mayor detalle conceptual y práctico con ejemplos. 
+---
+
+---
+Congratulations 
+    Sensaciones de logro registradas al tomar el curso y en que momentos. Meramente para endulzar el proceso por si se opta tomar el curso. 
+---
+  
