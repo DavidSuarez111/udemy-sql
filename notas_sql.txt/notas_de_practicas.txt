@@ -34,3 +34,20 @@ Last_name varchar,
 age int, 
 email_id varchar);
 y para revisarla se va a Schemas, tables y ahí aparece registrada. 
+
+Equivalente en Big Query 
+INT64 (en lugar de int)
+FLOAT64, NUMERIC, BOOL,
+STRING, DATE, DATETIME
+no hay constraints (no primary key, foreign key, unique)
+
+Create a new project in Big Query 
+Botón New Project > Nombrar > crear nuevo conjunto de datos > nombrar > crear tabla o desde query >
+ejemplo de query: 
+ create table DB_1.customer_table (
+  cust_id int64, 
+  First_name string, 
+  Last_name string, 
+  age int64,
+  email string
+);

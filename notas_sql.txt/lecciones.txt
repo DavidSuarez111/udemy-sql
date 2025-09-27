@@ -21,3 +21,5 @@ Capítulo 3: Fundamental SQL statements.
         definir las columnas, tipo de datos y consideraciones, 
         revisar en schemas, tables y ahí aparece
     
+    Big Query 
+    
