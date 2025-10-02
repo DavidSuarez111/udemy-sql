@@ -5,10 +5,14 @@ Planeación
 
 Daily SCRUM
 ¿Qué haré? 
-1. ver lecciones. 
-2. Hacer notas.
 
 Sprint Review
 
 
 Sprint Retrospective
+
+---
+Daily Scrum 10/1/25
+1. ver lecciones. 11 a 15 (40 minutos)
+2. Hacer notas. (30 minutos)
+
