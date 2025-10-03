@@ -28,4 +28,9 @@ Capítulo 3: Fundamental SQL statements.
         (1, 'ef', 'de', 'ef@xyz.com') #registro a añadir
     
     Insert from file
+    Se usa COPY nombre_de_tabla y FROM url (/ no \) #a veces hay temas de permisos de acceso. 
+
+    En BigQuery se hace un upload con browse se hace skip de la columna informativa con autoesquema. 
+        En casos específicos grandes archivos se importa desde drive o google cloud shell
+
     

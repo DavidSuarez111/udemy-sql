@@ -76,3 +76,36 @@ VALUES (3, 'ee', 'ef', 27, 'ef@xyz.com'),
 (1, 'gee', 'eh', 42, 'gh@xyz.com'), 
 ...; 
 
+Import data from files 
+COPY "table_name" ("column1", "column2", ...)
+FROM 'C:\tmp\persons.csv' Delimiter ',' CSV HEADER;
+
+#Se hace práctica usando el folder resources #pedirmelo a mi 
+query ejemplo: 
+COPY customer_table from 
+'C:\Users\david\Documents\main\Assets\Google-BigQuery-PostgreSQL-_-Big-Query-for-Data-Analysis\Data\Data_copy\copy.csv' delimiter ',' csv header;
+    Luego revisar en tablas, click derecho, ver, ver todos los registros
+
+#Noté que no hubo resultados añadidos arreglaré la ruta cambiando la dirección de los slashes
+"C:/Users/Public/Documents/PostgresData/postgresql_data_resources/Data/Data_copy/copy.csv"
+#tuve que poner en una carpeta pública para que postgres tuviera acceso. No podía acceder a carpetas de usuario. 
+
+BigQuery
+No hay copy statement. 
+    Google biquery o google cloud shell. 
+
+Se selecciona la base de datos, crear tabla, upload, browse file, 
+    en que proyecto base de datos tabla o nombrar tabla, hay opcion auto detectar columnas y tipos en schema, 
+        en opciones avanzadas hay detalles como escribir si vacio hacer un apendice o sobreescribir.
+            Header rows to skip 1. Porque sino trata como dato los nombres de las columnas. 
+#si algun tipo de datos no es constante generara un error. Se puede hacer una excepcion de cantidad de errores. La data debe estar limpia *buenas prácticas
+Recordar revisar el schema ya que usualmente se usa auto. Sino pues Edit Schema (button) y cambiarlo. 
+
+    constraints de cargar datos locales
+        Tamaño: menos de 10 mb
+        Filas: menos de 16K. 
+            Si no: 
+                Cargar desde drive o google cloud shell
+
+
+#Ejercicio de importación e insertado. 
