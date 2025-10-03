@@ -60,3 +60,19 @@ Enrollment_no Int,
 Name Varchar, 
 Science_Marks int
 ); 
+
+INSERT INTO 
+    Sintaxis
+        INSERT INTO "table_name"("column1", "column2", ...)
+        VALUES ("value1", "value2", ...)
+    
+Single Row 
+INSERT INTO customer_table
+VALUES (1, 'bee', 'cee', 32, 'bc@xyz.com'); #se pueden especificar nombres (cust_id, first_name, age, email_id) #no sirve doble comillas.
+
+Multiple Rows 
+INSERT INTO customer_table 
+VALUES (3, 'ee', 'ef', 27, 'ef@xyz.com'),
+(1, 'gee', 'eh', 42, 'gh@xyz.com'), 
+...; 
+

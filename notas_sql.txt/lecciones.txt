@@ -22,4 +22,10 @@ Capítulo 3: Fundamental SQL statements.
         revisar en schemas, tables y ahí aparece
     
     Big Query 
+    ---
+    Insert data
+        Tiene la estructura de INSERT INTO nombre_tabla VALUES #(siguiente renglon)
+        (1, 'ef', 'de', 'ef@xyz.com') #registro a añadir
+    
+    Insert from file
     
