@@ -107,5 +107,13 @@ Recordar revisar el schema ya que usualmente se usa auto. Sino pues Edit Schema 
             Si no: 
                 Cargar desde drive o google cloud shell
 
+Archivos grandes
+    Descargar google cloud sdk 
+        log in desde google 
+            seleccionar proyecto en nube (nombre de proyectos en bigquery el display gráfico es una terminal sdk shell)
+                bq --skip_leading_rows=1 load table_name (ejemplo: DB_1.customer_table) copy.csv (name of file)
 
+Importing from google drive 
+    Create table > Drive > URL > 
+        Ventajas: no pagas por el almacenamiento por que es datos que tienes en el drive. 
 #Ejercicio de importación e insertado. 
