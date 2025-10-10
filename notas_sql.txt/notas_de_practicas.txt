@@ -116,4 +116,27 @@ Archivos grandes
 Importing from google drive 
     Create table > Drive > URL > 
         Ventajas: no pagas por el almacenamiento por que es datos que tienes en el drive. 
+
 #Ejercicio de importación e insertado. 
+INSERT INTO science_class VALUES
+(1, 'Popeye', 33),
+(2, 'Olive', 54),
+(3, 'Brutus', 98);
+
+COPY science_class from 'C:/Users/Public/Documents/PostgresData/postgresql_data_resources/Data/Student.csv' delimiter ',' csv header;
+
+select * from science_class;
+
+SELECT 
+Se pueden decir las columnas específicas FROM table_name
+Las tablas resultantes se llaman conjuntos de resultados.
+
+* = wildcard. Selecciona todo
+
+Ejemplos
+    Una columna
+        SELECT first_name FROM customer_table
+    Múltiples columnas
+        SELECT first_name, last_name FROM customer_table
+
+
