@@ -201,6 +201,29 @@ Delete
     select * from Students; 
 
 Alter
+    Cambiar la definición o estructura de una tabla existente. 
+    Sintaxis
+    Alter Table table_name [Specify Actions]; 
+
+    Acciones posibles
+    Columns - Add, Delete, Modify, Rename
+    constraints -Add, drop
+    Index - Add, drop
+
+    Alter Table table_name Add column_name data_type; 
+
+    Ejemplos Añadir columna y eliminarla: 
+    alter table customer_table add test varchar(255); 
+    alter table customer_table drop test;
+
+    alter table customer_table alter column age type varchar(255);
+    alter table customer_table rename column email_id to customer_email;
+
+    Constraints
+    alter table table_name alter column col_name set not null; 
+    alter table table_name alter column col_name drop not null; 
+    alter table table_name add constraint col_nmae check ('col_name'>=100);
+    alter table table_name add primary key ('col_name');
+    alter table 'child_table' add constraint 'child_col' foreign_key('parent_col') references 'parent_table';
+
     
-
-
