@@ -36,4 +36,16 @@ Capítulo 3: Fundamental SQL statements.
     Verbo Select 
         Select columna1, col2 from table_name o Database.table_name (depende del programa)
 
-    
+    Verbo Distinct  
+        Usado para ver valores únicos o remover duplicados. 
+        select distinct
+    Verbo update   
+        se emplea para actualizar registros con información nueva. 
+        Synthax: 
+        update table set column where
+    Verbo Delete
+        Eliminación de registros
+        Syntax: 
+            delete from table where. 
+    Verbo Alter
+        

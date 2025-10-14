@@ -175,3 +175,32 @@ Not
     negación
     ejemplo
         select * from customer_table where not age=25;
+
+Update 
+    Usado para modificar los records existentes en una tabla.
+    update table_name set column1 = [value1], column2=[value2], 
+    where "condition"; #si es sobre toda la tabla pues sin condición. 
+
+    Ej. PgAdmin 
+    select * from customer_table where cust_id=2;
+    update customer_table set last_name='Pe', age=17 where cust_id=2;
+    Ej. sql udemy  
+    update Students set Age = 19 where Name='John';
+    select * from Students;
+
+Delete 
+    Sirve para eliminar registros de una tabla
+    Delete from customers where id=6;
+    múltiples filas
+    delete from customers where Age>25; 
+    todas las filas
+    delete from customers; 
+
+    ejercicio udemy - Eliminar estudiante Michael.
+    delete from Students where Name='Michael';
+    select * from Students; 
+
+Alter
+    
+
+
