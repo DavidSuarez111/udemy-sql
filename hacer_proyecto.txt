@@ -1,0 +1,13 @@
+1. Generar base de datos
+    Ir a kaggle, data.gov
+
+2. Subirla a PostgreSQL. 
+
+3. Crear Diagrama entidad-relación. 3 a 6 tablas conectadas. 
+
+4. Consultas variadas. 
+    cubrir verbos. 
+    cubrir subconsultas, ventanas, joins
+5. Análisis o visualizaciones en python.
+
+6. Documentación en git. 

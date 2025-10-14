@@ -149,4 +149,29 @@ Similar.
     En BigQuery se especifica no solo tabla sino también base de datos. 
 
 Select Distinct 
+    Elimina duplicados de una columna o más. = valores únicos.
+    select distinct first_name from customer_table; 
     
+    Si se usa * y no son duplicados perfectos no se eliminan. 
+        Ej. 
+        select distinct Grade from Students;
+    Distinct in BigQuery is similar. 
+
+Where command 
+    -Especificar una condición- mientras se consigue la info de una tabla. 
+
+    Select first_name from customer_table where age = 25; (puede ser más y es menos específico)
+    Ej. 
+        Select Name from Students where Age > 17; 
+Multiples condiciones se ocupa and or operators. 
+
+operadores And & or 
+    Conjuntivos (unen condiciones)
+
+    select first_name, last_name from customer_table where age > 20 and age < 30;
+    ej. udemy
+    select Name from Students where Grade='A' or Grade='A-';
+Not 
+    negación
+    ejemplo
+        select * from customer_table where not age=25;
