@@ -48,4 +48,6 @@ Capítulo 3: Fundamental SQL statements.
         Syntax: 
             delete from table where. 
     Verbo Alter
-        
+        Añade o remueve columnas o constraints
+        synthax: 
+        alter table table_name alter column col_name set not null; #add, add constraint, add primary key, drop,... (ver notas de práctica)

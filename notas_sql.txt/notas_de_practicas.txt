@@ -226,4 +226,17 @@ Alter
     alter table table_name add primary key ('col_name');
     alter table 'child_table' add constraint 'child_col' foreign_key('parent_col') references 'parent_table';
 
+    alter table customer_table alter column cust_id drop not null; 
+    alter table customer_table add_constraint cust_id check (cust_id>0); 
+    insert into customer_table values (-1, 'cc', 'dd', '67', 'cd@xyz.com'); #no va a correr por el constraint previo añadido.
+
+    delete from customer_table; #no values
+    alter table customer_table add primary key (cust_id);
+
+    Alter in BigQuery
+    No podemos eliminar ninguna columna ni cambiar sus tipos de datos no se puede añadir constraints
+        solo se puede crear otra tabla
+    
+
+Restore and Back-up
     
