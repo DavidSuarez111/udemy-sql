@@ -139,4 +139,14 @@ Ejemplos
     Múltiples columnas
         SELECT first_name, last_name FROM customer_table
 
+Ejercicio 
+    Seleccionar nombres primarios y departamentos de la tabla de empleados 
+    SELECT FirstName, Department FROM Employees;
 
+En BigQuery 
+Similar. 
+    SELECT First_name FROM DB_1.customer_table
+    En BigQuery se especifica no solo tabla sino también base de datos. 
+
+Select Distinct 
+    

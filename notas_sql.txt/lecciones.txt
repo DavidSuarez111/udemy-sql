@@ -33,4 +33,7 @@ Capítulo 3: Fundamental SQL statements.
     En BigQuery se hace un upload con browse se hace skip de la columna informativa con autoesquema. 
         En casos específicos grandes archivos se importa desde drive o google cloud shell
 
+    Verbo Select 
+        Select columna1, col2 from table_name o Database.table_name (depende del programa)
+
     
