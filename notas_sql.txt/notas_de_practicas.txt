@@ -239,4 +239,10 @@ Alter
     
 
 Restore and Back-up
+    Restore
+        Sirve para generar tablas en una base de datos a partir de un archivo trata
+    Proceso
+        Se genera una base de datos nombrada
+            Click izquierdo > Restore > seleccionar archivo.tar > restore 
+                Observar en schemas las tablas restauradas mediante queries. 
     
