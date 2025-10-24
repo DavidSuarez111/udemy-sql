@@ -245,4 +245,14 @@ Restore and Back-up
         Se genera una base de datos nombrada
             Click izquierdo > Restore > seleccionar archivo.tar > restore 
                 Observar en schemas las tablas restauradas mediante queries. 
-    
+
+    Restauraciones alternas
+        Desde CV 
+
+        Desde directorio
+            Create database
+                from directory format directory select directory (folder)
+
+        Desde backup file
+
+        Desde .sql file 
