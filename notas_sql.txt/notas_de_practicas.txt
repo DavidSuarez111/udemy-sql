@@ -247,12 +247,70 @@ Restore and Back-up
                 Observar en schemas las tablas restauradas mediante queries. 
 
     Restauraciones alternas
-        Desde CV 
+        Desde CSV 
+        create table customer (customer_id varchar primary key, customer_name varchar, segment varchar, age int, country varchar, city varchar, state varchar, postal_code bigint, region varchar);
+
+        create table product (
+            product_id varchar primary key, 
+            category varchar, sub_category varchar,
+            product_name varchar
+        );
+
+        create table sales (
+            order_line int primary key, 
+            order_id varchar, 
+            order_date date, 
+            ship_date date, 
+            ship_mode varchar, 
+            customer_id varchar, 
+            product_id varchar, 
+            sales numeric, 
+            quantity int, 
+            discount numeric, 
+            profit numeric);
+
+        copy data from the customer CSV file
+        copy customer from 'C:\Program Files\PostgreSQL\12\data\dataset\Customer.csv' CSV header;  
+        copy product from 'C:\Program Files\PostgreSQL\12\data\dataset\Product.csv' CSV header;  
+        copy sales from 'C:\Program Files\PostgreSQL\12\data\dataset\Sales.csv' CSV header;  
+
+        en mi caso: 
+        "C:/Users/Public/Data/Customer.csv"
+        "C:/Users/Public/Data/Product.csv"
+        "C:/Users/Public/Data/Sales.csv"
+        
+        En BigQuery 
+        Crear dataset, crear tabla, upload browse. rows to skip = 1 y autodetect schema. 
+            revisar las filas y si no tienen nombres y tipos correctos subirlos de forma manual eliminando la tabla con mala deteccion automatica. 
+                Introducir manualmente los nombres y tipos saltar una fila y revisar en detalles el numero de registros son buenas practicas. 
+
+        Noté que aunque se importaron bien las tablas la tabla Sales tiene variación con los nombres de los del curso. 
+            Se puede o modificar el CSV o bien usar 
+            alter table Sales 
+            rename column "Order Line" to Order_Line
+            rename column "Order ID" to Order_ID 
+            rename column  "Order Date" to Order_Date
+            rename column "Ship Date" to Ship_Date
+            rename column "Ship_Mode" to Ship_Mode 
+            rename column "Customer ID" to Customer_ID
+            rename column "Product ID" to Product_ID;
+
 
         Desde directorio
             Create database
                 from directory format directory select directory (folder)
 
         Desde backup file
+        dataset backup tar file browse *donde dejarlo* create 
+        restore y buscas tu archivo. Aqui es importante darte cuenta donde guardaste el tar en primer lugar. 
 
         Desde .sql file 
+
+    Restore and Backup 
+
+    Querying commands
+
+        IN 
+        apoya a reducir la necesidad de utilizar multiples condiciones or en una declaracion select, insert, update o delete. 
+            select "column_name" from "table_name" 
+            where "column_name" IN ('value1', 'value2', ...)
