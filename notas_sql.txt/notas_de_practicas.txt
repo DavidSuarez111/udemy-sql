@@ -310,6 +310,7 @@ Restore and Back-up
 
     Querying commands
 
+    Filtrado
         IN 
             apoya a reducir la necesidad de utilizar multiples condiciones or en una declaracion select, insert, update o delete. 
                 select "column_name" from "table_name" 
@@ -329,7 +330,7 @@ Restore and Back-up
             Se usa para recuperar valores con un rango en una declaracion select, insert, update o delete. 
             Entonces valor arriba y valor abajo. 
 
-        Sintaxis 
+            Sintaxis 
             select column_name
             from table_name
             where column_name between value1 and value2;
@@ -340,7 +341,7 @@ Restore and Back-up
 
             select * from sales where ship_date between '2015-04-01' and '2016-04-01';
 
-        BigQuery 
+            BigQuery 
             select * from DB.Customer where age between 20 and 30;
 
             el resultado es inclusivo si tiene 20 y 30. 
@@ -361,7 +362,7 @@ Restore and Back-up
 
             AB_C empieza con AB hay un caracter y luego una C.
 
-        ejemplos 
+            ejemplos 
             select * from customer where customer_name like 'J%'; 
 
             select * from customer where customer_name like '%Nelson%'; 
@@ -380,7 +381,7 @@ Restore and Back-up
                 parece ser igual
             select * from DB.Sales where Product_ID like 'OFF%';
 
-        Ejercicios
+            Ejercicios
             /* Seleccionar las ciudades donde
             la region sea north o east sin duplicados
             mediante IN
@@ -398,3 +399,84 @@ Restore and Back-up
 
             select customer_id from customer where customer_name like '% ____';
     
+    Ordenamiento 
+        Order by 
+        solo se puede usar en declaraciones select y ordena los resultados por una o mas columnas
+
+        Sintaxis
+        select column_name
+        from table_name 
+        where condition
+        order by column_name asc o desc; 
+
+        mas de una columna 
+        order by col_1 asc, col_2 asc; 
+
+        ejemplos
+        select * from customer\
+        where state = 'California' 
+        order by Customer_name; 
+
+        =
+        select * from customer
+        where state = 'California'
+        order by customer_name ASC; 
+
+        select * from customer
+        order by 2 desc;
+
+        select * from customer where age>25
+        order by city asc, 
+        Customer_name desc; 
+
+        select * from custoemr 
+        order by age; 
+
+        Pregunta SQL
+        Retrieve the first and last names of employees from the `Employees` table ordered by last name in alphabetical order.
+        select FirstName, LastName from Employees 
+        order by LastName; 
+
+        ejemplos de ordenamiento BigQuery
+        select * from DB.Sales where Product_ID like 'OFF%'
+        order by Sales desc; 
+
+        select * from DB.Customer order by City, age desc; 
+
+        Limit 
+        limita el numero de records regresados basado en el valor del limite
+
+        limit row_count; 
+        --va al final 
+
+        ejemplos 
+        select * from customer where age >= 25 order by age desc limit 8; 
+
+        select * from customer where age >= 25 order by age asc limit 10; 
+
+        ejercicio udemy 
+        selecciona los 3 estudiantes ordenados por edad en orden desc
+        select Name, Age from Students order by Age desc limit 3;
+
+        BigQuery 
+        limit no reduce el costo de query 
+            ooooh solo es una ilusion visual reductiva
+        si seleccionas algunas columnas pues solo te cobran eso. 
+ 
+    Alias
+        verb: AS 
+        util para cambiar los nombres de las columnas en el resultado
+        y para hacer referencias mas breves.
+
+        Sintaxis
+        select col as col_alias
+        from table_name; 
+
+        ejemplo 
+        select cust_id as "serial_number", Customer_name as name from Customer; 
+
+        ejercicio AS
+        selecciona los nombres de los clientes y su cantidad de ordenes de la tabla orders renombrando la cantidad como cantidad total.
+        select CustomerName, Amount as TotalAmount from Orders;
+
+        

@@ -30,4 +30,15 @@ Congratulations
                 between val1 and val 
 
   Ordenamiento 
+    group by
+        col asc o desc; 
+        o col1 asc, col2 asc; 
+    
+---
+Query > File > Analysis
+
+---
+
+
+
     

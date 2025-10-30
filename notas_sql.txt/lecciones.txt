@@ -64,3 +64,8 @@ Capítulo 3: Fundamental SQL statements.
         multiples lineas 
         hasta cerrar 
     */ 
+
+    AS 
+    alias. Sirve para renombrar columnas en los resultados o hacer referencias mas breves a las columnas. 
+
+    
