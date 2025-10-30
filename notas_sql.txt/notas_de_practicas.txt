@@ -311,6 +311,90 @@ Restore and Back-up
     Querying commands
 
         IN 
-        apoya a reducir la necesidad de utilizar multiples condiciones or en una declaracion select, insert, update o delete. 
-            select "column_name" from "table_name" 
-            where "column_name" IN ('value1', 'value2', ...)
+            apoya a reducir la necesidad de utilizar multiples condiciones or en una declaracion select, insert, update o delete. 
+                select "column_name" from "table_name" 
+                where "column_name" IN ('value1', 'value2', ...)
+
+            select * from customer where city IN (`Philadelphia`, `Seattle`);
+
+            select * from customer where city = `Philadelphia` or `Seattle`;
+
+            Ejercicio recupera nombres Name de los estudiantes Students cuya calificacion Grade es A o B usando IN. 
+
+            BigQuery ejemplo
+            select * from DB.Customer where city in ('Philadelphia', 'Seattle', 'Chicago');
+
+
+        Between
+            Se usa para recuperar valores con un rango en una declaracion select, insert, update o delete. 
+            Entonces valor arriba y valor abajo. 
+
+        Sintaxis 
+            select column_name
+            from table_name
+            where column_name between value1 and value2;
+
+            select * from customer where age Between 20 and 30;
+
+            select * from customer where age not between 20 and 30; 
+
+            select * from sales where ship_date between '2015-04-01' and '2016-04-01';
+
+        BigQuery 
+            select * from DB.Customer where age between 20 and 30;
+
+            el resultado es inclusivo si tiene 20 y 30. 
+
+            ejemplo de codigo: 
+            select Name from Students where age between 22 and 30;
+
+        Like 
+            select column_name from table_name where column_name like pattern; 
+
+            se usan wildcards 
+            % any string of any length 
+            _ single character 
+
+            A% empieza con A 
+            %A acaba con a
+            A%B empierza con A acaba con B 
+
+            AB_C empieza con AB hay un caracter y luego una C.
+
+        ejemplos 
+            select * from customer where customer_name like 'J%'; 
+
+            select * from customer where customer_name like '%Nelson%'; 
+
+            select * from customer where customer_name Like '____%'; 
+
+            select distinct city from customer where city not like 'S%'; 
+
+            select * from customer where customer_name like 'G\%'; 
+
+            ejercicio en like de udemy
+            select Name from Students where Name like 'J%';
+
+        Like in BigQuery
+            Hay alguna diferencia? 
+                parece ser igual
+            select * from DB.Sales where Product_ID like 'OFF%';
+
+        Ejercicios
+            /* Seleccionar las ciudades donde
+            la region sea north o east sin duplicados
+            mediante IN
+            */ 
+            select distinct city from customer where region in ('North', 'East');
+
+            /* Seleccionar la lista de ordenes donde
+            hay ventas entre 100 y 500 usando between */
+            select order_id from sales where sales between 100 and 500;
+            /* 
+             Seleccionar lista de customers cuyo 
+             last_name contiene solo 4 caracteres
+             usando like
+            */
+
+            select customer_id from customer where customer_name like '% ____';
+    

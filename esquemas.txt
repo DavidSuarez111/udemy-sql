@@ -21,3 +21,13 @@ Congratulations
     Sensaciones de logro registradas al tomar el curso y en que momentos. Meramente para endulzar el proceso por si se opta tomar el curso. 
 ---
   
+  Filtrado 
+    select
+        from 
+            where 
+                col in ()
+                col = or 
+                between val1 and val 
+
+  Ordenamiento 
+    

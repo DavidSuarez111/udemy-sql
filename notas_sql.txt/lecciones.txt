@@ -51,3 +51,16 @@ Capítulo 3: Fundamental SQL statements.
         Añade o remueve columnas o constraints
         synthax: 
         alter table table_name alter column col_name set not null; #add, add constraint, add primary key, drop,... (ver notas de práctica)
+
+    Operadores IN, Like, Between, Not
+
+    Verbo Where 
+        especifica que se cumpla un criterio usado frecuentemente seguido de col = en caso de usar or o col IN () 
+
+    Tomar notas 
+    -- una sola linea 
+
+    /* 
+        multiples lineas 
+        hasta cerrar 
+    */ 
