@@ -4,10 +4,14 @@
 2. Subirla a PostgreSQL. 
 
 3. Crear Diagrama entidad-relación. 3 a 6 tablas conectadas. 
+    opcional
 
 4. Consultas variadas. 
+        Anotar el objetivo y el query. 
     cubrir verbos. 
     cubrir subconsultas, ventanas, joins
-5. Análisis o visualizaciones en python.
 
+5. Análisis o visualizaciones en python.
+    opcional segundo proyecto. 
 6. Documentación en git. 
+    
