@@ -68,4 +68,58 @@ Capítulo 3: Fundamental SQL statements.
     AS 
     alias. Sirve para renombrar columnas en los resultados o hacer referencias mas breves a las columnas. 
 
+    Count 
+    regresa la cuenta de una expresion o consulta
+
+    Sintaxis
+    select col_name, count (col_name2)
+    from table_name;
+
+    ejemplos 
+    select count(*) from sales; 
+
+    select count(order_line) as "Number of Products Ordered",
+    count (distinct order_id) as "Number of Orders"
+    from sales where customer_id = 'CG-12520' 
     
+    Ejercicio 
+    cuenta el numero de ordenes en la tabla Orders
+    select COUNT(*) from Orders;
+
+    En bigQuery los nombres usados en alias no pueden tener espacios ni van entrecomillas ej
+    select count(order_line) as N_of_products_purchased, 
+    count(distict order_id) as N_of_orders from DB.Sales where customer_id = 'CG-12520'; 
+
+    SUM 
+    Suma de valores de un agregado. 
+
+    AVERAGE 
+
+    MIN MAX 
+
+    --
+    Having 
+    solo en group by 
+
+    JOINS 
+
+    -- 
+    Subqueries
+
+    --
+    Views and indexes
+
+    -- 
+    String functions
+
+    -- 
+    Math functions
+
+    -- 
+    Datetime functions
+
+    --
+    Pattern Matching 
+
+    --
+    Google Data Studio para visualizar datos de BigQuery
