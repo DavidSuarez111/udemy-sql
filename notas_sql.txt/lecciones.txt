@@ -71,35 +71,25 @@ Capítulo 3: Fundamental SQL statements.
     Count 
     regresa la cuenta de una expresion o consulta
 
-    Sintaxis
-    select col_name, count (col_name2)
-    from table_name;
-
-    ejemplos 
-    select count(*) from sales; 
-
-    select count(order_line) as "Number of Products Ordered",
-    count (distinct order_id) as "Number of Orders"
-    from sales where customer_id = 'CG-12520' 
-    
-    Ejercicio 
-    cuenta el numero de ordenes en la tabla Orders
-    select COUNT(*) from Orders;
-
-    En bigQuery los nombres usados en alias no pueden tener espacios ni van entrecomillas ej
-    select count(order_line) as N_of_products_purchased, 
-    count(distict order_id) as N_of_orders from DB.Sales where customer_id = 'CG-12520'; 
-
     SUM 
     Suma de valores de un agregado. 
 
     AVERAGE 
+    Promedio, funcion de agregado. 
 
     MIN MAX 
+    funciones de agregado de valores minimos y maximos
 
     --
     Having 
     solo en group by 
+
+    Group by 
+        Having 
+            order by opcional. 
+    
+    Condicionales
+    Case When 
 
     JOINS 
 

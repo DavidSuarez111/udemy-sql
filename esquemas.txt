@@ -22,7 +22,7 @@ Congratulations
 ---
   
   Filtrado 
-    select
+    select *aqui se pueden usar agregados (sum, avg, count, min, max)* *se puede usar AS*
         from 
             where 
                 col in ()

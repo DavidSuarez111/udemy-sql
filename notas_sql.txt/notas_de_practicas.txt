@@ -479,4 +479,155 @@ Restore and Back-up
         selecciona los nombres de los clientes y su cantidad de ordenes de la tabla orders renombrando la cantidad como cantidad total.
         select CustomerName, Amount as TotalAmount from Orders;
 
+    Count
+        hace el conteo, es una funcion de agregacion. 
+
+        Sintaxis
+        select col_name, count (col_name2)
+        from table_name;
+
+        ejemplos 
+        select count(*) from sales; 
+
+        select count(order_line) as "Number of Products Ordered",
+        count (distinct order_id) as "Number of Orders"
+        from sales where customer_id = 'CG-12520' 
+
+        Ejercicio 
+        cuenta el numero de ordenes en la tabla Orders
+        select COUNT(*) from Orders;
+
+        En bigQuery los nombres usados en alias no pueden tener espacios ni van entrecomillas ej
+        select count(order_line) as N_of_products_purchased, 
+        count(distict order_id) as N_of_orders from DB.Sales where customer_id = 'CG-12520'; 
+    
+    Sum
+    suma, funcion de agregado
+
+        sintaxis 
+        select sum(profit) as "Total Profit" from sales;
+
+        select sum(quantity) as "Total Quantity" from sales where product_id = 'FUR-TA-100000577';
+
+        ejercicio
+        Calcula el total de ordenes en la tabla Orders. 
+        select SUM(Amount) from Orders;
+
+
+    Average 
+        Sintaxis 
+        select avg(aggregate_expression)
+        from tables 
+        where conditions; 
+
+        ejemplos
+        select avg(age) as "Average Customer Age" from customer; 
+
+        select avg(sales*10) as "Average Commission Value" from sales;
+
+        ejercicio udemy 
+        calcula el promedio de cantidad de ordenes en la tabla Orders. 
+        select AVG(Amount) from Orders;
+
+        BigQuery
+        select avg(sales.sales*.10) as Avg_Comm_values from DB.Sales; 
+
+    Min Max
+        sintaxis
+        select min(aggregate_expression) from tables where; 
+        select max(aggregate_expression) from tables where; 
+    
+        ejemplos
+        select min(sales) as "Minimum sales value June 15" from sales where order_date between '2015-06-01' and '2015-06-30';
+        
+        ejercicios 
+        encuentra minimo y maximo de ordenes en tabla Orders.
+        select MIN(Amount), MAX(Amount) from Orders;
+        
+        BigQuery 
+        select max(sales.sales) as max_sales, min(sales.sales) as min_sales 
+        from DB.Sales where Order_Date between '2015-06-01' and '2015-06-30';
+
+Group by commands
+    se usa en una declaracion select para agrupar los resultados por una o mas columnas
+        
+        sintaxis
+        select col_name1, function type (col_2) from table
+        group by col_1; 
+
+        ejemplos
+        select region, COUNT(customer_id) AS customer_count from customer Group by region; 
+
+        select product_id, SUM(quantity) as quantity_sold from sales
+        group by product_id order by quantity_sold desc; 
+
+        select customer_id, min(sales) as min_sales, max(sales) as max_sales, avg(sales) as Average_sales,
+        SUM(sales) AS Total_sales from sales group by customer_id 
+        order by total_sales desc limit 5; 
+
+        ejercicio
+        calcula el total de ordenes col Amount de la tabla Orders por producto. 
+            Pequeña pista si agrupas por producto vale la pena seleccionar esa columna tambien. 
+        select Product, SUM(Amount) from Orders 
+        group by Product;
+
+        Bigquery group by 
+        select category, count(Product_ID) as product_count from DB.Product
+        group by category; 
+
+    Having 
+        usado en combinacion de un group by para poner una condicion y solo regresar los verdaderos para la condicion
+        es un where de agregados hehe.
+
+        sintaxis
+        select columnnames, agregate_function(expression)
+        from tables
+        where *opcional* 
+        group by col
+        having condition
+
+        ejemplo: 
+        select region, count(customer_id) as customer_count
+        from customer
+        group by region
+        having count(customer_id) > 200; 
+
+        ejercicio having 
+        select Product, SUM(Amount) 
+        from Orders group by Product 
+        having SUM(Amount) > 150;
+        
+
+    Ejercicio integrador: 
+        Make a dashboard showing the following figures for each Product ID
+        a. Total sales in $ order by this column in descending
+        b. Total sales quantity
+        c. Number of orders
+        d. Max sales value
+        e. Min sales value
+        f. Average sales value
+        2. Get the list of product IDs where the quantity of product sold is greater than 10.
+
+        resultados
+        select product_id, sum(sales) as total_sales_dlls, 
+        sum(quantity) as total_sales_quantity, 
+        count(sales) as number_of_orders, 
+        max(sales) as max_sale, min(sales) as min_sale, 
+        avg(sales) as average_sales from sales group by product_id order by total_sales_dlls desc;
+
+        select product_id, sum(sales) as total_sales_dlls, 
+        sum(quantity) as total_sales_quantity, 
+        count(sales) as number_of_orders, 
+        max(sales) as max_sale, min(sales) as min_sale, 
+        avg(sales) as average_sales from sales group by product_id having sum(quantity) > 10 order by total_sales_dlls desc 
+        ;
+
+        En el segundo query se puede decidir si ver tanta info o solo lo necesario.
+        Product ID 
+
+        select product_id, 
+        sum(quantity) as total_sales_quantity, 
+        from sales group by product_id having sum(quantity) > 10 order by total_sales_dlls desc 
+        ;
+
         
