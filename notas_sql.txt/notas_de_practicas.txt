@@ -630,4 +630,258 @@ Group by commands
         from sales group by product_id having sum(quantity) > 10 order by total_sales_dlls desc 
         ;
 
+    declaracion condicional 
+        case when
+        similar a if else 
+
+        sintaxis
+        (case when condition es el if) then es el else
+        case when condition then resultado
+        END 
+
+        case expression 
+        when value then result 
+        *se puede poner otro set o mas de when y al final un else si ninguna se cumple*
+        end 
+
+        ejemplos
+        select *, 
+        case when age<40 then 'Young'
+            when age>60 then 'Senior Citizen' 
+            else 'Middle aged\ 
+        End as Age_category from customer; 
+
+        Parece que funciona bien para feature engineering. 
+
+        ejercicio udemy 
+        Retrieve the names of customers from the `Orders` table along with a column that 
+        categorizes them as 'High Value' if their order amount is greater than $150, 
+        otherwise categorizes them as 'Standard Value'.
+
+        select CustomerName, case 
+            when Amount > 150 Then 'High Value'
+            else 'Standard Value'
+        end as CustomerCategory from Orders order by CustomerName;
+
+    Joins 
+    une tablas para recuperar informacion desde varias tablas.
+    customer-product-sales 
+
+    asi puedo saber cuantos productos se venden con desglose. 
+    o quienes compran que productos y cuanto gastan 
+
+    subqueries 
+    hacen multiples niveles de analisis en un simple query
+Agenda
+    views. 
+    se usan para guardar espacio y limitar acceso a la informacion 
+
+    index 
+    mejoran el tiempo de recuperacion desde una base de datos. 
+
+    Por que combinar. 
+    Quiero destinar recursos a diferentes regiones. Me puedes decir las ventas por region. 
+    -Marketing head 
+
+
+    sales data in sales table 
+    and region from customer table
+
+    key in common. Customer_ID 
+
+    Para unir tablas se ocupa saber: 
+    Nombres de las tablas a unir
+    columna en comun con el cual se uniran 
+    la lista de columnas de cada tabla que queremos conservar. 
+
+    Tipos de union 
         
+        inner join -simple
+            lo que esta en comun 
+            compara cada fila de la tabla 1 con cada fila de la tabla 2 los pares en comun se quedan y entre ambas forman una fila. 
+       
+            sintaxis
+            select columns from table 1
+            inner join table 2
+            on table1.column = table2.column; 
+
+            ejemplo 
+            select 
+            a.order_line, a.product_id, 
+            a.customer_id, a.sales, b.customer_name, 
+            b.age
+            from sales_2015 as a 
+            inner join customer_20_60 as b 
+            on a.customer_id = b.customer_id 
+            order by customer_id; 
+
+            ejercicio 
+            recupera los nombres de clientes y los productos que han ordenado 
+            select
+            a.CustomerName, 
+            b.Product
+            from Customers as a 
+            inner join Orders as b 
+            on a.CustomerID = b.CustomerID;
+
+            BigQuery 
+            select 
+            a.order_line, 
+            a.product_id, 
+            a.customer_id,
+            a.sales, 
+            b.customer_name, 
+            b.age
+            from DB.sales_2015 as a
+            inner join Customer_20_60 as b
+            on customer_id = customer_id 
+            order by DB.customer_id; 
+
+        izquierda / left
+            lo que esta en la primera tabla unido a lo en comun por la segunda.
+        
+            ejemplo
+            select a.order_line, 
+            a.product_id, 
+            a.sales, 
+            b.customer_name, 
+            b.age
+            from sales_2015 as a 
+            left join customer_20_60 as b
+            on a.customer_id = b.customer_id
+            order by a.customer_id;
+
+            ejercicio
+            recupera los nombres de clientes y los productos que han ordenado. 
+
+            select 
+            a.CustomerName,
+            b.Product
+            from Customers as a 
+            left join Orders as b
+            on a.CustomerID = b.CustomerID; 
+        
+            BigQuery 
+            select 
+            a.order_line, 
+            a.product_id, 
+            a.sales, 
+            b.customer_name, 
+            b.age
+            from DB.Sales_2015 as a 
+            left join DB.Customer_20_60 as b
+            on a.Customer_ID = b.Customer ID
+            order by a.customer_id;
+
+            tuve un detalle con los nombres exactos de las tablas por eso las comillas ` ` con nombres exactos que no seguian snakecase. 
+            
+            tambien se pueden cambiar los nombres con lo siguiente
+                ALTER TABLE `DB.Customer_20_60`
+                RENAME COLUMN `Customer ID` TO Customer_ID;
+
+        completa / full join 
+            lo que esta en ambas tablas. el mas amplio. 
+
+            ejemplo
+            select 
+            a.order_line, 
+            a.product_id, 
+            a.customer_id,
+            a.sales, 
+            b.customer_name, 
+            b.age,
+            b.customer_id
+            from sales_2015 as a
+            full join customer_20_60 as b
+            on a.customer_id = b.customer_id
+            order by a.customer_id, b.customer_id;
+
+            ejercicio
+            recupera todos los clientes y sus ordenes incluyendo clientes que no han hecho ordenes y productos que no han sido ordenados.
+            select
+            a.CustomerName, 
+            b.Product
+            from Customers as a
+            full join Orders as b
+            on a.CustomerID = b.CustomerID;
+
+
+            BigQuery
+            select 
+            a.order_line, 
+            a.product_id, 
+            a.customer_id,
+            a.sales, 
+            b.customer_name, 
+            b.age,
+            b.customer_id
+            from sales_2015 as a
+            full join customer_20_60 as b
+            on a.customer_id = b.customer_id
+            order by a.customer_id, b.customer_id;
+            
+            *se hacen los mismos cambios de usar los backticks y referencia a base de datos DB. mayus. 
+
+        derecha / right 
+            lo que esta en la segunda tabla unida a lo que esta conversado en la primera. 
+
+            Ejemplo
+            select 
+            a.order_line, 
+            a.product_id, 
+            a.sales, 
+            b.customer_id,
+            b.customer_name, 
+            b.age
+            from sales_2015 as a 
+            right join customer_20_60 as b
+            on a.customer_id = b.customer_id
+            order by a.customer_id;
+
+            ejercicio
+            recupera los productos que han sido ordenados y los nombres de los clientes que pusieron las ordenes
+            select 
+            a.CustomerName,
+            b.Product
+            from Customers as a
+            right join Orders as b
+            on a.CustomerID = b.CustomerID;
+
+            BigQuery 
+            select 
+            a.order_line, 
+            a.product_id, 
+            a.sales, 
+            b.`customer id`,
+            b.`customer name`, 
+            b.age
+            from DB.Sales_2015 as a 
+            right join DB.Customer_20_60 as b
+            on a.customer_id = b.`customer id`
+            order by a.customer_id;
+        la perspectiva tambien importa. una izquierda y derecha pueden ser lo mismo si se invierte el orden de las tablas a unir en la sintaxis. 
+
+        otra: cross join o cartesian join 
+
+    combining queries 
+        using 
+        union, intersect and except. 
+
+        ejemplos 
+        /* Joins */
+
+        /* Crear tabla de ventas en el año 2015 */
+        create table sales_2015 as select * from sales where ship_date between '2015-01-01' and '2015-12-31';
+
+        select count(*) from sales_2015; --2131
+
+        select count(distinct customer_id) from sales_2015; --578
+
+        /* Customers with age between 20 and 60 */
+
+        create table customer_20_60 as select * from customer where age between 20 and 60;
+        select count(*) from customer_20_60; --597
+
+    Big Query 
+    create table DB.Sales_2015 as select * from DB.Sales where Ship_Date between '2015-01-01' and '2015-12-31'; 
+

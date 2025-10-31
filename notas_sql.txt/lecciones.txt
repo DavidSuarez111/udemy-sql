@@ -89,10 +89,17 @@ Capítulo 3: Fundamental SQL statements.
             order by opcional. 
     
     Condicionales
-    Case When 
+    Case When then 
+    else 
+    end as col_name from table; 
+
 
     JOINS 
+    inner, full, left, right
 
+    combining queries
+    union, intersect, except 
+    
     -- 
     Subqueries
 
