@@ -1060,3 +1060,133 @@ Agenda
         left join sales_2015 as b
         on a.customer_id = b.customer_id
         group by a.state;
+
+    subqueries
+        query dentro de un query. Pueden entrar en un where, en un from o en select 
+
+        sintaxis 
+        en where
+        select col
+        from table
+        where col2 [comparison operator]
+        (select col3 from table2 where condition)
+
+        tal parece que hacer un subquery es con ()
+
+        ejemplo 
+        select * from sales where customer_id in 
+            (select distinct customer_id 
+            from customer where age>60); 
+
+        en from 
+        select 
+            a.product_id, 
+            a.product_name,
+            a.category, 
+            b.quantity
+        from product as a 
+        left join (select product_id,
+                        sum(quantity) as quantity
+                        from sales group by product_id) as B
+        on a.product_id=b.product_id
+        order by b.quantity desc; 
+
+        en select 
+        select customer_id, order_line, 
+        (select customer_name from customer
+        where sales.customer_id = customer.customer_id)
+        from sales
+        order by customer_id;
+
+        reglas de subqueries
+        >deben estar en parentesis
+        >un subquerie solo puede tener una columna en el select a menos que multiples columnas
+        esten en el query principal para que el subquery lo compare con las columnas selecccionadas. 
+        >un comando order by no puede ser usado en un subquery, si el principal query tho. esto no lo entiendo: el group by puede hacer la misma funcion que el order by en un subquery. 
+        >subqueries que regresan mas de una fila solo pueden usar multriples operadores de valor como el in. 
+        >the select list cannot include any references to values that evaluate to a blob, array, clob or nclob. 
+        >a subquery cannot be immediately enclosed in a set function. 
+        >the between operator cannot be used with a subquery. however the between operator can be used within the subquery. ala que loco esta. solo en el subquery adentro le quita el poderlo usar en el query regular o principal. 
+
+        ejercicio
+        recupera los nombres de clientes que han ordenado widget A de la tabla customer
+
+        Ocupo de salida CustomerName
+        tengo 2 tablas Customers y Orders
+        ocupo satisfacer el que haya comprado Widget A de Product
+
+        resultado
+        select 
+            CustomerName
+        from Customers 
+        where CustomerID in
+        (select CustomerID from Orders 
+        where product = "Widget A")
+
+        BigQuery --formato ideal
+
+        select 
+            *
+        From
+            DB.Sales
+        Where 
+            customer_id IN (
+                SELECT
+                    customer_id
+                FROM 
+                    DB.Customer
+                WHERE
+                    age >60);
+
+        Ejercicio 
+        Get data with all columns of sales table and customer name,
+        customer age, product name and category in the same result set
+
+        select * 
+        from
+        (select
+        	a.customer_name, 
+        	a.customer_age,
+        	b.product_name, 
+        	b.category
+        from sales as s
+        left join customers as c
+        on s.customer_id = c.customer_id
+        left join product as p 
+        on s.product_id = p.product_id
+        ) as combined;
+
+        se puede sin subqueries con puro left join 
+
+        SELECT 
+    s.*, 
+    c.customer_name, 
+    c.customer_age, 
+    p.product_name, 
+    p.category
+    FROM sales AS s
+    LEFT JOIN customers AS c 
+        ON s.customer_id = c.customer_id
+    LEFT JOIN product AS p 
+        ON s.product_id = p.product_id;
+
+        tambien con un join adentro y uno afuera siguiendo esta logica
+            pendiente hacerlo por la hora que era hehe
+        SELECT 
+        combined.*, 
+        r.region_name
+    FROM (
+        SELECT 
+            s.*, 
+            p.product_name, 
+            p.category
+        FROM sales AS s
+        LEFT JOIN product AS p 
+            ON s.product_id = p.product_id
+    ) AS combined
+    LEFT JOIN regions AS r 
+        ON combined.region_id = r.region_id;
+
+    
+
+
