@@ -861,13 +861,60 @@ Agenda
             order by a.customer_id;
         la perspectiva tambien importa. una izquierda y derecha pueden ser lo mismo si se invierte el orden de las tablas a unir en la sintaxis. 
 
-        otra: cross join o cartesian join 
+        
+        cross join o cartesian join 
+        producto cartesiano entre 2 conjuntos de datos
+        
+        sintaxis
+        select table1.column1, table2.column2
+        from table1, table2
 
-    combining queries 
-        using 
-        union, intersect and except. 
-
+        
+        --delete from month_values; #esto es por si te equivocas hacer un drop de la tabla y vuelves a escribir la tabla haha. 
         ejemplos 
+
+        create table month_values (MM integer);
+        create table year_values (YYYY integer);
+
+        insert into month_values values (1), (2), (3),(4), (5), (6),(7), (8), (9),(10), (11), (12);
+        insert into year_values values (2011), (2012), (2013), (2014), (2015), (2016), (2017), (2018), (2019);
+
+        select * from month_values;
+        select * from year_values;
+
+        select a.YYYY, b.MM
+        from year_balues as a, month_values as b
+        order by a.YYYY, b.MM;
+
+        esta padre hace como una multiplicacion. todos los años con todos los meses
+
+        
+
+        ejercicios 
+        combinación de todos los clientes y todos los productos. 
+        select a.CustomerName, 
+        b.Product
+        from Customers as a, Orders as b;
+
+        BigQuery 
+            veo que cambia como expresas los valores
+
+        create table DB_1.month_values (MM INT64);
+        create table DB_1.year_values (MM INT64);
+
+        insert into DB_1.month_values values (1), (2), (3),(4), (5), (6),(7), (8), (9),(10), (11), (12);
+        insert into DB_1.year_values values (2011), (2012), (2013), (2014), (2015), (2016), (2017), (2018), (2019);
+
+        select * from DB_1.month_values;
+        select * from DB_1.year_values;
+
+        select YYYY, MM
+        from DB_1.year_balues as a, DB_1.month_values as b
+        order by YYYY, MM;
+
+        --no se ocupa poner referencia porque solo hay esas columnas.
+
+
         /* Joins */
 
         /* Crear tabla de ventas en el año 2015 */
@@ -885,3 +932,131 @@ Agenda
     Big Query 
     create table DB.Sales_2015 as select * from DB.Sales where Ship_Date between '2015-01-01' and '2015-12-31'; 
 
+    combining queries 
+        combinan 2 resultados de 2 select queries
+
+        sintaxis
+        select column A, column B from Table X 
+            intersect, except, union
+        select column A, column B from Table Y
+
+        --La estructura de la salida de ambos queries debe ser la misma. 
+
+            intersect lo que esta en comun 
+            except quita los que estan en comun 
+            union pone lo de ambos como un full join solo que sin ampliar la estructura ya que ya tienen la misma. 
+
+        
+
+        using 
+        union, intersect and except. 
+
+        ejemplos
+        select customer_id from sales_2015 
+        intersect 
+        select customer_id form customer_20_60 
+
+         ejercicio
+         recupera el nombre en comun de los clientes y tabla de pasajeros
+        select CustomerName from Customers
+        intersect 
+
+        select PassengerName from Passengers
+
+        Except 
+        operador usado para regresar todas las filas en una primera declaracion select que no son regresados por el segundo select
+
+        Sintaxis 
+        Select expression1, expression2, ...
+        from tables
+        where
+        Except 
+        Select expression1, expression2,...
+        from tables 
+        where
+
+        ejercicio 
+        recupera los productos pedidos
+        por John Doe pero no por Jane Smith
+        de la tabla Orders
+
+        select Product
+        from Customers as a
+        join Orders as b on a.CustomerID = b.CustomerID
+        where CustomerName = 'John Doe'
+        except 
+        select Product 
+        from Customers as a 
+        join Orders as b on a.CustomerID = b.CustomerID
+        where CustomerName = 'Jane Smith'
+
+        BigQuery
+        no solo except sino tambien articulado con Distinct
+
+        select customer_id from DB.Sales_2015
+        except distinct 
+        select `customer id` from DB.Customer_20_60
+        order by customer_id;
+
+        union
+        combina los resultados de 2 select statements. remueve duplicados. 
+
+        condicion misma cantidad de columnas y tipos de datos
+
+        sintaxis 
+        Select expression1, expression2, ...
+        from tables
+        where
+        union 
+        Select expression1, expression2,...
+        from tables 
+        where
+
+        ejemplo 
+        querer buscar todos los clientes sus id ya sea que esten en una u otra tabla
+
+        select customer_id from sales_2015
+        union 
+        select custoemr_id form customer_20_60
+        order by customer_id;
+
+        ejercicios
+        recupera la lista de los distintos productos que han sido ordenados por ambas tablas
+
+        select distinct Product
+        from Orders1 
+        union 
+        select distinct Product 
+        from Orders; 
+
+        BigQuery 
+        union 
+            all o distinct 
+        esa es la diferencia de SQL 
+
+        select custoemr_id from DB.Sales_2015
+        union distinct
+        select `customer id` from DB.Customer_20_60
+        order by customer_id;
+
+        Ejercicio 
+        Encuentra el total de ventas en cada estado 
+        para customer_20_60 y sales_2015 
+        usa joins y group by 
+
+        2. obten la info que contenga Product_id, product name, category, total sales de esos productos y cantidad total vendida 
+        usa las tablas sales y product
+
+        select a.state, 
+        sum(b.sales) as total_sales_per_state
+        from customer_20_60 as a
+        left join sales_2015 as b
+        on a.customer_id = b.customer_id
+        group by a.state;
+
+        select a.state, 
+        sum(b.sales) as total_sales_per_state
+        from customer_20_60 as a
+        left join sales_2015 as b
+        on a.customer_id = b.customer_id
+        group by a.state;
