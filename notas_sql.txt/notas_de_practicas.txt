@@ -1187,6 +1187,160 @@ Agenda
     LEFT JOIN regions AS r 
         ON combined.region_id = r.region_id;
 
-    
+    Views 
+    no es una tabla fisica. Es una tabla virtual creada por un query uniendo uno o mas tablas
+        se puede controlar el acceso a los view -seguridad
+    sintaxis
+    create or replace view view_name as
+    select columns from tables
+    where
 
+    ejemplo
+    create view logistics as 
+    select a.order_line, 
+        a.order_id, 
+        b.customer_name, 
+        b.city, 
+        b.state, 
+        b.country 
+    from sales as a 
+    left join customer as b 
+    on a.customer_id = b.customer_id 
+    order by a.order_like; 
+
+    --create or replace view can be used instead of just create view
+
+    select * from logistics;
+
+    -es un segmento de los datos que se puede mandar tambien. Es curioso. 
+
+    Drop or Update view 
+
+    example
+    drop view logistics;
+    -lo elimina 
+
+
+    ejercicio en views
+    create a view named `HighValueCustomers` 
+    that shows the names and cities of customers
+    who have made order with an amount greater than 150. 
+
+    CREATE VIEW HighValueCustomers AS
+    SELECT 
+        c.CustomerName,
+        c.City
+    FROM Customers AS c
+    INNER JOIN Orders AS o
+        ON c.CustomerID = o.CustomerID
+    WHERE o.Amount > 150;
+
+    Indexes 
+    mas rapido. an index creates an entry for each value that appears int he indexed columns.
+    sintaxis 
+    Create [unique] index_name 
+    on table_name
+    (
+        index_col1 [asc/desc]
+        index_col2 [asc/desc]
+        index_coln [asc/desc]
+    )
+
+    ejemplo 
+    create index mon_idx 
+    on month_values(MM);
+
+    se puede eliminar con 
+    drop index index_name [cascade | restrict] --como afecta a lo que utiliza el indice. 
+
+    alter index index_name 
+    rename to new_index_name; 
+
+    reglas o buenas practicas
+    que sean numericos los indices 
+    que no sea nul 
+    solo si es necesario
+
+    ejercicio
+    crea un indice on la columna product de ORders para optimizar los queries de busqueda basados en productos. 
+
+    CREATE INDEX idx_product
+    ON Orders (Product);
+
+    BigQuery 
+    no hay indexes en bigquery 
+
+    mas sobre indexes
+    https://www.youtube.com/watch?v=unY2X6j2L1o
+
+    ejercicio de views
+    create a view which contains order_line, product_id, sales, and discount of the first 
+    order date in the sales table and name it as "Daily_Billing" 
+    delete this view 
+
+    los views ocupan menos espacio eso si, de hecho no ocupan espacio simple y no generan redundancia como tener la misma tabla dos veces. es curioso como un query que no se hace haha hasta puedes exportarlo
+    no me queda del todo claro. 
+
+    String functions 
+        length 
+        obtains the number of characters
+
+        ejemplo 
+        select Customer_name, lenght (customer_name) as characters_num 
+        from customers 
+        where age > 30; 
+        select Customer_name, lenght (customer_name) as characters_num 
+        from customers 
+        where length(customer_name) > 15; 
+
+        Ejercicio
+        select Product, LENGTH(Product) from Orders;
+
+        BigQuery 
+        select *, length(Customer_name) as Cust_len from DB.Customer;
+
+        upper and lower
+        
+        example
+        select upper('Start-Tech-Academy')
+        *se puede usar para actualizar tablas. 
+
+        Ejercicio
+        recupera los nombres en mayusculas de los clientes
+        select UPPER(CustomerName) from Customers;
+
+        BigQuery 
+        select *, UPPER(Customer_name), LOWER(customer_name) from DB.Customer;
+
+        replace
+        Synthax
+        select customer_name, country, replace(lower(country), 'united states', 'US') as country_new 
+        from customer; 
+
+        ejercicio
+        recupera los nombres de los productos de la tabla Orders reemplazando 'Widget' por 'Item'. 
+        select REPLACE(Product, 'Widget', 'Item') from Orders;
+
+        BigQuery
+        select *, replace(Country, 'United States', 'US') as Country_new from DB.Customer; 
+
+
+        Trim, Ltrim, Rtrim 
+
+        Concatenation 
+
+        substring 
+
+        list aggregation 
+
+
+    Mathematical functions 
+
+    Date-Time Functions -17
+
+    Pattern string matching 
+
+    Google Data Studio for visualizing BigQuery Data
+
+    certificado yeyei. 
 
