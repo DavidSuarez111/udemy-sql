@@ -95,28 +95,29 @@ Capítulo 3: Fundamental SQL statements.
 
 
     JOINS 
-    inner, full, left, right
+    inner, full, left, right, cross 
 
     combining queries
     union, intersect, except 
     
     -- 
     Subqueries
+    () puede ir en from, where, select
 
     --
     Views and indexes
 
     -- 
     String functions
-
+    upper, lower, concat, string_agg, 
     -- 
     Math functions
-
+    ceil, floor, round
     -- 
     Datetime functions
-
+    current_date, datetime, timestamp
     --
     Pattern Matching 
-
+    Like, Similar to, Regex.
     --
     Google Data Studio para visualizar datos de BigQuery

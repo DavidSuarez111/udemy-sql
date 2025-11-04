@@ -1627,8 +1627,98 @@ Agenda
 
 
     Pattern string matching 
+        Like
+        sintaxis
+        % y _ solamente
+
+        select * from customer_table where first_name Like 'Jo%';
+        '%od%'; 
+        'J%'; 
+       
+       ejercicio 
+        SELECT name
+        FROM Students
+        WHERE name LIKE 'Ja%';
+
+       recupera
+        Similar to 
+        sintaxis
+       
+        ~ (Regular Expressions)
+        sintaxis  
+        wildcards
+        |, *, +, ?, {m}, {m, }, {m,n},^,$,[], ~, ~*  
+        diferentes comodines a Like. 
+
+        ejemplos 
+        select * from customer where customer_name ~*'^a+[a-z\s]+$'
+        /* Pattern matching */
+
+        select * from customer 
+        where customer_name ~*'^a+[a-z\s]+$';
+
+        --que los nombres empiecen con a, b, c o d.
+        select * from customer 
+        where customer_name ~*'^(a|b|c|d)+[a-z\s]+$';
+
+        --que tenga un caracter repetido 3 veces de la a a la z y luego uno 4 veces. Entonces solo nombres y apellidos de 4 letras. 
+        select * from customer 
+        where customer_name ~*'^(a|b|c|d)[a-z]{3}\s[a-z]{4}$';
+
+        --emails validos
+        create table users(id serial primary key, name character varying);
+        insert into users(name) values 
+        ('Alex'), ('Jon Snow'), ('Christopher'), ('Arya'), 
+        ('Sandip Debnath'), ('Lakshmi'), ('alex@gmail.com'), ('sandip5004'), ('lakshmi@gmail.com');
+        select * from users
+        where name ~*'[a-z0-9\.\-\_]+@[a-z0-9\.\-]+\.[a-z]{2,5}';
+        BigQuery 
+        REGEXP_contains(var, r'');
+        REGEXP_replace()
+
+        Ejercicios --pendiente--
+        1. find out all customer who have first name and last name of 5 characters each and last name starts with "a|b|c|d"
+        2. create a table "zipcode" and insert the below data in it 
+        Pin/Zip codes 
+        234432, 23345, sdfe4, 123^3, 67424, 7895432, 12312
+        find out the valid zipcodes from this table (5 or 6 numeric characters)
 
     Google Data Studio for visualizing BigQuery Data
+        Otro producto 
+        Visualiza informacion de BigQuery 
+        BigQuery report in Data Studio 
 
-    certificado yeyei. 
+    Buenas practicas seguir con HackerRank 
+    Showcasing SQL Skills with HackerRank Stars
+        In order to excel in SQL, it is important to practice and improve your skills. 
+        One of the best ways to do this is by using HackerRank, a popular platform for practicing coding skills. 
+        By using HackerRank, you can improve your SQL skills and demonstrate your proficiency to potential employers or academic institutions.
 
+        It's important to have certifications and badges such as HackerRank stars to showcase your skills and proficiency in SQL. 
+        In this lecture, we will be providing you with a link to a YouTube playlist that will guide you on how to get a 3-star rating in the SQL topic on HackerRank.
+    recursos: 
+    https://www.youtube.com/watch?v=w1FG8YfwJM0&list=PL41qI9AD63BOQYp_h0GOYrsEC67PBas8R&index=1
+    
+    Comprehensive Interview Preparation Questions
+        If you are determined to master the essential skills in the field of data analytics, consistent practice and learning are key.
+        To help you on this path, we have compiled a set of valuable resources, each containing carefully selected interview questions and detailed answers for the most widely used tools in data analytics: 
+        Excel, SQL, Power BI, Tableau, and Machine Learning.
+    
+    Recursos a testear: 
+    Excel 
+    https://starttechacademy.com/excel-interview-questions/
+    SQL 
+    https://starttechacademy.com/sql-interview-questions/
+    Tableau 
+    https://starttechacademy.com/tableau-interview-questions/
+    ML 
+    https://starttechacademy.com/machine-learning-interview-questions/
+    PowerBI
+    https://starttechacademy.com/power-bi-interview-questions/
+    
+certificado yeyei. 
+        En el email registrado o en certificates en about this course. 
+About your certificate
+After this lecture, you will receive the course completion certificate from Udemy in your registered email ID. Let your peers and prospective employers know about your new skill. Sharing your certificate on social media sites, especially LinkedIn, is a great way to do this. You can tag us (@start-tech academy) when you post your certificate for more credibility.
+
+If you face any issue related to your certificate, visit this link for more information: https://support.udemy.com/hc/en-us/articles/229603868-Certificate-of-Completion
