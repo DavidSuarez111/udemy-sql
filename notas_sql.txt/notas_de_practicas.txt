@@ -1324,19 +1324,307 @@ Agenda
         BigQuery
         select *, replace(Country, 'United States', 'US') as Country_new from DB.Customer; 
 
-
         Trim, Ltrim, Rtrim 
+        trim remueve todos los caracteres especificados ya sea desde el inicio o el fin. Rtrim desde el fin o derecha. Ltrim desde la izquierda o inicio. 
+
+        syntax
+        trim([leading, trailing, both][trim_character] from string); default both 
+
+        rtrim(string, trim_character)
+        ltrim(string, trim_character)
+
+        ejemplos 
+       select trim(leading ' ' from ' Start-Tech Academy ');
+        select trim(trailing ' ' from ' Start-Tech Academy ');
+        select trim(' Start-Tech Academy ');
+        select ltrim(' Start-Tech Academy ');
+        select rtrim(' Start-Tech Academy ');
+        
+        ejercicio
+        recupera los nombres de los productos sin espacios
+        select TRIM(Product) from Orders;
 
         Concatenation 
+        une cadenas 
+
+        string1 || string2 || string_n 
+
+        ejemplo 
+        select 
+            customer_name,
+            city||' , '||state||' , '||country as Address 
+        FROM customer; 
+        
+        ejercicio 
+        obten una lista de clientes y su ciudad mediante concatenacion de los nombres y ciudades de la tabla customers. 
+
+        SELECT CustomerName, CustomerName  || ' ' || City 
+        FROM Customers;
+
+        BigQuery 
+        select customer_id, City||" , "|| State || " , " || Country as Add_1, concat(City,' , ', State,' , ', Country) as Add_2
+        FROM DB.Customer; 
+
+        por detalles de nombres: 
+        select `Customer ID`, City||" , "|| State || " , " || Country as Add_1, concat(City,' , ', State,' , ', Country) as Add_2
+        FROM DB.Customer;
 
         substring 
+        syntax 
+        select
+        customer_id, 
+        customer_name,
+        SUBSTRING(customer_id FOR 2) as cust_group
+        from customer
+        where substring(customer_id for 2) = 'AB';
 
+        select 
+            Customer_id, 
+            Customer_name,
+            SUBSTRING(Customer_id FROM 4 FOR 5) AS cust_number
+        FROM customer
+        where SUBSTRING(Customer_id FOR 2) = 'AB';
+
+        ejercicio 
+        recupera los primeros 3 carácteres de cada producto de la tabla Orders. 
+
+        select 
+            Product, 
+            SUBSTRING(PRODUCT)
+        from customer 
+        where Substring(PRODUCT) = '____';
+
+        select 
+        SUBSTRING(Product, 1, 3)
+        from Orders;
+
+        BigQuery
+        es solo substr(val, start, length)
+
+        ej 
+        select customer_id, substr(customer_id, 1, 2) as cust_grp, substr(customer_id, 4, 5) as cust_n from DB.Customer; 
+        
         list aggregation 
+        combina los resultados de varias columnas en una misma. 
+        syntax
+        string_agg(expression, delimiter)
 
+        ejemplo 
+        select 
+            order_id, 
+            STRING_AGG('product_id,',')
+        from sales
+        group by order_id; 
 
+        BigQuery
+        SELECT order_id, string_agg(Product_ID, ', ') as Product_list from DB.Sales group by order_id; 
+
+        Ejercicio 13
+       
+        1.Find Maximum length of characters in the Product name string from Product table 
+        2.Retrieve product name, sub-category and category from Product table and an additional col name 'product_details' which contains a concatenated string of product name, sub-category and category. 
+        3. Analyze the product_id col and take out the three parts composing the product_id in three different columns 
+        4. List down comma separated product name where sub_category is either Chairs or Tables 
+
+        /* Ejercicios 13 */
+
+        /* 
+        1.Find Maximum length of characters in the Product name string from Product table 
+        2.Retrieve product name, sub-category and category from Product table and an additional col name 'product_details' which contains a concatenated string of product name, sub-category and category. 
+        3. Analyze the product_id col and take out the three parts composing the product_id in three different columns 
+        4. List down comma separated product name where sub_category is either Chairs or Tables 
+        */ 
+        --1
+        select 
+        	product_name, 
+        	max(length(product_name))
+        from Product
+        group by product_name 
+        order by max(length(product_name)) desc; 
+        --le agregue grupo y ordenador por curiosidad buscaba saber cual era el producto
+        --2
+        select 
+        	product_name, 
+        	sub_category, 
+        	category, 
+        	product_name||', '||sub_category||', '||category as prod_name_subcat_cat
+        from Product;
+        --3. Es una separacion de cadena
+        select product_id from product; --tiene 3 partes dividido aparentemente por guiones
+        SELECT ASCII(SUBSTRING(product_id, 5, 1)) AS ascii_code, product_id
+        FROM product
+        LIMIT 5; --hay caracteres atipicos no visibles que impiden la separacion por guiones.
+        
+        
+        select 
+        	product_id, 
+        	split_part(REGEXP_REPLACE(product_id, '[^\x20-\x7E]', '', 'g'), '-', 1) as product_id_part1,
+        	split_part(REGEXP_REPLACE(product_id, '[^\x20-\x7E]', '', 'g'), '-', 2) as product_id_part2,
+        	split_part(REGEXP_REPLACE(product_id, '[^\x20-\x7E]', '', 'g'), '-', 3) as product_id_part3
+        from product; --logrado 
+        
+        --4
+        --Revisar product_name 
+        select product_name from product; 
+        
+        --Revisar sub_category
+        select distinct sub_category from product; --Chairs y Tables no hay errores de gramatica
+        
+        --La instruccion no la veo del todo claro, seleccionare los nombres donde la subcategoria sea sillas o mesas. 
+        select product_name, sub_category
+        from product
+        where sub_category in ('Chairs', 'Tables')
+        order by sub_category; --opcional el ordenar   
+        
+        creo que queria un agregado aaah
+        select sub_category, 
+        string_agg(product_name, ',') as prod_subcat_list from product 
+        where sub_category in ('Chairs', 'Tables') group by sub_category;
     Mathematical functions 
+        Ceil & Floor 
+        ceil Regresa el numero entero mas grande o igual a un numero 
+        Floor regresa el entero mas grande que sea menor o igual a un numero. 
+        literal de techo y piso. 
 
+        ejemplo 
+        select order_line, sales, ceil(sales), floor(sales) from sales;
+
+        recupera la col Amount y valores techo de la tabla orders. 
+        select 
+        Amount, CEIL(Amount)
+        from Orders;
+        
+        BigQuery 
+        select order_line, profit, floor(profit), ceil(profit) from DB.Sales;
+        se usa round(var, 2) cantidad de decimales. --regular es entero
+
+
+        Random
+        numero aleatorio entre 0 y 1 
+        random()
+
+        
+        ejemplo 
+        decimal 
+        select random()*(b-a)+a
+        select floor(random()*(b-a+1)+a))+a;
+
+        /* Random a=10, b=50 */
+        select random(), random()*40+10, floor(random()*40+10)
+
+        BigQuery 
+        rand(); si quieres entre 2 valores: 
+        select *, rand() from DB.Customer where rand()<0.1; 
+        --set aleatorio de cantidad de valores conforme al 90% de chances de quedarse por cada registro. 
+
+        Setseed 
+        syntax setseed(0.5)
+        entre 1 y -1 inclusive. 
+        siempre te dara el mismo valor. da reproducibilidad. 
+
+        BigQuery 
+        no hay equivalente. 
+
+        Round 
+        round(number)
+
+        select 
+            order_line, 
+            sales, 
+            round(sales)
+        from sales order by sales desc; 
+
+        ejercicios 
+        recupera Amount y redondeado de Orders
+
+        select 
+        Amount, 
+        ROUND(Amount)
+        from Orders;
+        
+        Power
+        Power(m, n)
+
+        select POWER(6, 2)
+        select age, power(age, 2) from customer order by desc; 
+
+        ejercicios 14
+        recupera Amount y POWER(Amount, 2) from Orders; 
+        select 
+        Amount, POWER(Amount, 2) 
+        from Orders;
+
+        BigQuery
+        pow(3,3);
+
+        ejercicios 14 -pendiente-
+        1. You are running a lottery for your customers. So, pick a list of 5 lucky customers from customer table using random function
+        2. Suppose you cannot charge the customer in fraction points. So, for sales value of 1.63, you will 
+        get either 1 or 2. In such a scenario, find out 
+        a)Total sales revenue if you are charging the lower integer value of sales always
+        b)Total sales revenue if you are charging the higher integer value of sales always
+        c)Total sales revenue if you are rounding off the sales always
+
+        
     Date-Time Functions -17
+        current_date
+        current_time([])
+        current_timestamp([])
+        'YYYY-MM-DD'
+        'HH:MM:SS.GMT+TZ'
+
+        ejemplos 
+        select current_date()
+
+        Ejercicio 
+        select CURRENT_TIMESTAMP;
+
+        BigQuery 
+        menciona la zona de tiempo en lugar de precisiones decimales.
+        'US/Eastern' poner el timezone de los datos. 
+
+        time_stamp() sin zona horaria. 
+
+        Age
+        age([date,1] date2) --si no se usa date 1 se usa la actual. 
+        
+        ejemplos 
+        select age('2014-04-25', '2014-01-01');
+
+        select order_line, order_date, ship_date, age(ship_date, order_date) as time_taken 
+        from sales 
+        order by time_taken desc;
+
+        BigQuery 
+        Date_DIFF(date_expression_1_end, date_expression_2_since, date_part) #year, quarter, month, week, day 
+
+        select order_line, ship_date, order_date, 
+        date_diff(ship_date, order_date, day) as time_taken
+        from DB.Sales
+        order by time_taken desc;
+        
+        Extract 
+        sintaxis
+        extract('unit' from 'date')
+
+        day, decade, doy, epoch, hour, minute, month, second, year
+
+        ejemplo 
+        select extract(day from current_timestamp);
+        select extract(minute from current_timestamp);
+        select order_line, ship_date, 
+        (extract(epoch from ship_date) - extract(epoch from order_date)) as sec_taken
+        from sales;
+
+        BigQuery 
+        select extract(second from current_timestamp);
+
+        Ejercicio -pendiente-
+        1. Find out the current age of "Batman" who was born on "April 6, 1939" in Years, months and days
+        2. Analyze and find out the monthly sales of sub-category chair. Do you observe any seasonality in sales of this sub-category 
+
+
+
 
     Pattern string matching 
 
