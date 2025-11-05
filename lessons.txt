@@ -1,0 +1,1449 @@
+Literal translation of the notes taken in spanish.
+
+The course is composed of 20 chapters.
+This document aims to remain primarily conceptual.
+
+Chapter 1: Introduction.
+Covers the structure and scope of the course. Present in the preface.
+
+Chapter 2: Installation of PostgreSQL and Google BigQuery.
+Present in the preface.
+
+BigQuery: There are costs for storage and for queries.
+Therefore, if you run a query, you can save it so you don’t spend multiple times for multiple searches or previews.
+
+Chapter 3: Fundamental SQL Statements.
+Creating databases, inserting, importing, uploading files, SELECT, DISTINCT, WHERE, AND–OR–NOT, UPDATE, DELETE, and ALTER.
+
+Creating a database:
+Click on Create under a server in pgAdmin to create a database.
+Name the database. You can right-click and delete it (drop button).
+(Well said in English, but understandable.)
+
+Tip: Writing verbs in uppercase helps to visually differentiate queries.
+
+Creating a table:
+Right-click on the database and select Query Tool.
+Use the CREATE TABLE command,
+define columns, data types, and constraints,
+then check under Schemas → Tables to see it appear.
+
+BigQuery
+
+Insert data
+Structure:
+
+INSERT INTO table_name VALUES
+(1, 'ef', 'de', 'ef@xyz.com');
+
+
+— record to be added.
+
+Insert from file
+Use COPY table_name FROM 'url' (use /, not \).
+Sometimes there are permission issues.
+
+In BigQuery, you can upload a file via Browse and skip the informational column using auto schema.
+For large files, import from Google Drive or Google Cloud Shell.
+
+SELECT
+SELECT column1, column2 FROM table_name or Database.table_name (depends on the program).
+
+DISTINCT
+Used to view unique values or remove duplicates.
+SELECT DISTINCT ...
+
+UPDATE
+Used to modify records with new information.
+Syntax:
+
+UPDATE table
+SET column = value
+WHERE condition;
+
+
+DELETE
+Deletes records.
+Syntax:
+
+DELETE FROM table
+WHERE condition;
+
+
+ALTER
+Adds or removes columns or constraints.
+Syntax:
+
+ALTER TABLE table_name
+ALTER COLUMN col_name SET NOT NULL;
+
+
+(Also: ADD, ADD CONSTRAINT, ADD PRIMARY KEY, DROP, etc. — see practice notes.)
+
+Operators: IN, LIKE, BETWEEN, NOT
+
+WHERE
+Specifies a condition that must be met, often used as col = value, or combined with OR or IN (...).
+
+Comments:
+-- Single line
+
+/*
+    Multiple lines
+    until closed
+*/
+
+
+AS
+Alias. Used to rename columns in the results or to make shorter references to them.
+
+COUNT
+Returns the count of a column or query result.
+
+SUM
+Returns the sum of an aggregated column.
+
+AVERAGE
+Returns the mean value of an aggregate.
+
+MIN / MAX
+Aggregate functions returning minimum and maximum values.
+
+HAVING
+Used only with GROUP BY.
+
+GROUP BY
+HAVING
+ORDER BY is optional.
+
+Conditionals:
+
+CASE
+    WHEN condition THEN result
+    ELSE other_result
+END AS col_name
+FROM table;
+
+
+JOINS
+INNER, FULL, LEFT, RIGHT, CROSS
+
+Combining queries:
+UNION, INTERSECT, EXCEPT
+
+Subqueries:
+Can appear in FROM, WHERE, or SELECT.
+
+Views and Indexes
+
+String functions:
+UPPER, LOWER, CONCAT, STRING_AGG
+
+Math functions:
+CEIL, FLOOR, ROUND
+
+Datetime functions:
+CURRENT_DATE, DATETIME, TIMESTAMP
+
+Pattern Matching:
+LIKE, SIMILAR TO, REGEX
+
+Google Data Studio for visualizing data from BigQuery.
+
+-----
+Hands on practice and extended theory
+
+Lesson 3Creating customer and product tablesCREATE TABLE "table_name"(
+#Give all columns, give all data types per column.
+"column 1" "data type for column 1" [],
+"column 2" "data type for column 2" [],
+[constraints]*optional. End with semicolon );Existing Constraints:
+
+NOT NULL: Ensures that a column cannot have NULL value
+DEFAULT: Provides a default value for a column when none is specified
+UNIQUE: Ensures all values in a column are different
+CHECK: Makes sure that all values in a column satisfy certain criteria.
+Primary Key: Used to uniquely identify a row in the table
+Foreign Key: Used to ensure referential integrity of the data.
+Personal note: OK, constraints are the notes or metadata about columns. What general conditions or data types the table has.Tip: Verbs in uppercase are better for distinguishing queries.PRIMARY Key
+Uniquely identifies each row in a table.
+Can be one or more columns; if more than one, it's known as a composite key.Foreign key
+Identifies a column from another table (very frequently its primary key)
+The objective of foreign keys is to guarantee referential integrity of data.Example
+To create the table, go to the database, right-click, query tool:
+sqlCREATE TABLE customer_table(
+Cust_id int,
+First_name varchar,
+Last_name varchar,
+age int,
+email_id varchar);
+To review it, go to Schemas, tables, and it appears registered there.Equivalent in BigQuery
+
+INT64 (instead of int)
+FLOAT64, NUMERIC, BOOL,
+STRING, DATE, DATETIME
+No constraints (no primary key, foreign key, unique)
+Create a new project in BigQuery
+Button New Project > Name > Create new dataset > Name > Create table or from query >Example query:
+sqlcreate table DB_1.customer_table (
+  cust_id int64,
+  First_name string,
+  Last_name string,
+  age int64,
+  email string
+);Practical Case:
+Create a "Classroom" database with a "Science_class" table with 3 columns and their data types.Query:
+sqlCREATE TABLE Science_class(
+Enrollment_no Int,
+Name Varchar,
+Science_Marks int
+);INSERT INTOSyntax
+sqlINSERT INTO "table_name"("column1", "column2", ...)
+VALUES ("value1", "value2", ...)Single Row
+sqlINSERT INTO customer_table
+VALUES (1, 'bee', 'cee', 32, 'bc@xyz.com');
+#You can specify names (cust_id, first_name, age, email_id) #double quotes don't work.Multiple Rows
+sqlINSERT INTO customer_table
+VALUES (3, 'ee', 'ef', 27, 'ef@xyz.com'),
+(1, 'gee', 'eh', 42, 'gh@xyz.com'),
+...;Import data from files
+sqlCOPY "table_name" ("column1", "column2", ...)
+FROM 'C:\tmp\persons.csv' Delimiter ',' CSV HEADER;#Practice is done using the resources folder #ask me for itExample query:
+sqlCOPY customer_table from
+'C:\Users\david\Documents\main\Assets\Google-BigQuery-PostgreSQL-_-Big-Query-for-Data-Analysis\Data\Data_copy\copy.csv' delimiter ',' csv header;Then check in tables, right-click, view, view all records#I noticed there were no results added, I'll fix the path by changing the direction of the slashes
+"C:/Users/Public/Documents/PostgresData/postgresql_data_resources/Data/Data_copy/copy.csv"
+#I had to put it in a public folder so postgres would have access. It couldn't access user folders.BigQuery
+No copy statement.
+Google BigQuery or Google Cloud Shell.Select the database, create table, upload, browse file,
+in which project database table or name table, there's an option to auto-detect columns and types in schema,
+in advanced options there are details like writing whether to append or overwrite if empty.
+Header rows to skip 1. Otherwise it treats column names as data.#If any data type is inconsistent, it will generate an error. You can set an exception for the number of errors. The data must be clean *best practicesRemember to review the schema since usually auto is used. If not, then Edit Schema (button) and change it.Constraints for loading local data
+Size: less than 10 MB
+Rows: less than 16K.
+If not:
+Load from Drive or Google Cloud ShellLarge Files
+Download Google Cloud SDK
+Log in from Google
+Select cloud project (project names in BigQuery; the graphical display is an SDK shell terminal)
+bq --skip_leading_rows=1 load table_name (example: DB_1.customer_table) copy.csv (name of file)Importing from Google Drive
+Create table > Drive > URL >
+Advantages: You don't pay for storage because it's data you have in Drive.#Import and insert exercise.
+sqlINSERT INTO science_class VALUES
+(1, 'Popeye', 33),
+(2, 'Olive', 54),
+(3, 'Brutus', 98);
+
+COPY science_class from 'C:/Users/Public/Documents/PostgresData/postgresql_data_resources/Data/Student.csv' delimiter ',' csv header;
+
+select * from science_class;SELECT
+You can specify specific columns FROM table_name
+Resulting tables are called result sets.
+= wildcard. Selects everything
+Examples
+One column
+sqlSELECT first_name FROM customer_tableMultiple columns
+sqlSELECT first_name, last_name FROM customer_tableExercise
+Select first names and departments from the Employees table
+sqlSELECT FirstName, Department FROM Employees;In BigQuery
+Similar.
+sqlSELECT First_name FROM DB_1.customer_table
+In BigQuery, you specify not only the table but also the database.Select Distinct
+Eliminates duplicates from one or more columns. = unique values.
+sqlselect distinct first_name from customer_table;If you use * and they're not perfect duplicates, they won't be eliminated.
+Example:
+sqlselect distinct Grade from Students;Distinct in BigQuery is similar.Where command
+-Specify a condition- while getting info from a table.sqlSelect first_name from customer_table where age = 25;(can be more and is less specific)Example:
+sqlSelect Name from Students where Age > 17;Multiple conditions require AND or OR operators.And & OR operators
+Conjunctive (join conditions)sqlselect first_name, last_name from customer_table where age > 20 and age < 30;Udemy example:
+sqlselect Name from Students where Grade='A' or Grade='A-';NOT
+NegationExample:
+sqlselect * from customer_table where not age=25;UPDATE
+Used to modify existing records in a table.
+sqlupdate table_name set column1 = [value1], column2=[value2],
+where "condition";
+#If it's for the entire table, then without condition.PgAdmin Example:
+sqlselect * from customer_table where cust_id=2;
+update customer_table set last_name='Pe', age=17 where cust_id=2;SQL Udemy Example:
+sqlupdate Students set Age = 19 where Name='John';
+select * from Students;DELETE
+Used to delete records from a table
+sqlDelete from customers where id=6;Multiple rows:
+sqldelete from customers where Age>25;All rows:
+sqldelete from customers;Udemy exercise - Delete student Michael:
+sqldelete from Students where Name='Michael';
+select * from Students;ALTER
+Change the definition or structure of an existing table.Syntax
+sqlAlter Table table_name [Specify Actions];Possible Actions
+
+Columns - Add, Delete, Modify, Rename
+Constraints - Add, drop
+Index - Add, drop
+sqlAlter Table table_name Add column_name data_type;Examples: Add column and delete it:
+sqlalter table customer_table add test varchar(255);
+alter table customer_table drop test;
+
+alter table customer_table alter column age type varchar(255);
+alter table customer_table rename column email_id to customer_email;Constraints
+sqlalter table table_name alter column col_name set not null;
+alter table table_name alter column col_name drop not null;
+alter table table_name add constraint col_name check ('col_name'>=100);
+alter table table_name add primary key ('col_name');
+alter table 'child_table' add constraint 'child_col' foreign_key('parent_col') references 'parent_table';
+
+alter table customer_table alter column cust_id drop not null;
+alter table customer_table add_constraint cust_id check (cust_id>0);
+insert into customer_table values (-1, 'cc', 'dd', '67', 'cd@xyz.com'); #won't run due to the previously added constraint.
+
+delete from customer_table; #no values
+alter table customer_table add primary key (cust_id);Alter in BigQuery
+We cannot delete any column or change their data types; we cannot add constraints
+
+Only option is to create another table
+Restore and Back-upRestore
+Used to generate tables in a database from a tar fileProcess
+A named database is generated
+Left-click > Restore > Select .tar file > restore
+Observe the restored tables in schemas through queries.Alternative RestorationsFrom CSV
+sqlcreate table customer (customer_id varchar primary key, customer_name varchar, segment varchar, age int, country varchar, city varchar, state varchar, postal_code bigint, region varchar);
+
+create table product (
+    product_id varchar primary key,
+    category varchar, sub_category varchar,
+    product_name varchar
+);
+
+create table sales (
+    order_line int primary key,
+    order_id varchar,
+    order_date date,
+    ship_date date,
+    ship_mode varchar,
+    customer_id varchar,
+    product_id varchar,
+    sales numeric,
+    quantity int,
+    discount numeric,
+    profit numeric);
+
+copy data from the customer CSV file
+copy customer from 'C:\Program Files\PostgreSQL\12\data\dataset\Customer.csv' CSV header;
+copy product from 'C:\Program Files\PostgreSQL\12\data\dataset\Product.csv' CSV header;
+copy sales from 'C:\Program Files\PostgreSQL\12\data\dataset\Sales.csv' CSV header;In my case:
+"C:/Users/Public/Data/Customer.csv"
+"C:/Users/Public/Data/Product.csv"
+"C:/Users/Public/Data/Sales.csv"In BigQuery
+Create dataset, create table, upload browse. Rows to skip = 1 and autodetect schema.
+Check rows and if they don't have correct names and types, upload them manually by deleting the table with bad automatic detection.
+Manually enter names and types, skip one row, and check the number of records in details - good practices.I noticed that although the tables imported correctly, the Sales table has variations from the course names.
+You can either modify the CSV or use:
+sqlalter table Sales
+rename column "Order Line" to Order_Line
+rename column "Order ID" to Order_ID
+rename column "Order Date" to Order_Date
+rename column "Ship Date" to Ship_Date
+rename column "Ship_Mode" to Ship_Mode
+rename column "Customer ID" to Customer_ID
+rename column "Product ID" to Product_ID;From directory
+Create database
+from directory format directory select directory (folder)From backup file
+Dataset backup tar file browse where to leave it create
+Restore and search for your file. Here it's important to realize where you saved the tar in the first place.From .sql fileRestore and BackupQuerying commandsFilteringIN
+Helps reduce the need to use multiple OR conditions in a SELECT, INSERT, UPDATE, or DELETE statement.
+sqlselect "column_name" from "table_name"
+where "column_name" IN ('value1', 'value2', ...)
+
+select * from customer where city IN ('Philadelphia', 'Seattle');
+
+select * from customer where city = 'Philadelphia' or 'Seattle';Exercise: Retrieve names (Name) of students (Students) whose grade (Grade) is A or B using IN.BigQuery example:
+sqlselect * from DB.Customer where city in ('Philadelphia', 'Seattle', 'Chicago');BETWEEN
+Used to retrieve values within a range in a SELECT, INSERT, UPDATE, or DELETE statement.
+So upper value and lower value.Syntax
+sqlselect column_name
+from table_name
+where column_name between value1 and value2;
+
+select * from customer where age Between 20 and 30;
+
+select * from customer where age not between 20 and 30;
+
+select * from sales where ship_date between '2015-04-01' and '2016-04-01';BigQuery
+sqlselect * from DB.Customer where age between 20 and 30;The result is inclusive if it has 20 and 30.Example code:
+sqlselect Name from Students where age between 22 and 30;LIKE
+sqlselect column_name from table_name where column_name like pattern;Wildcards are used:
+
+% any string of any length
+_ single character
+
+A% starts with A
+%A ends with A
+A%B starts with A ends with B
+AB_C starts with AB, has one character, then a C
+Examples
+sqlselect * from customer where customer_name like 'J%';
+
+select * from customer where customer_name like '%Nelson%';
+
+select * from customer where customer_name Like '____%';
+
+select distinct city from customer where city not like 'S%';
+
+select * from customer where customer_name like 'G\%';Udemy LIKE exercise:
+sqlselect Name from Students where Name like 'J%';Like in BigQuery
+Is there any difference?
+Seems to be the same
+sqlselect * from DB.Sales where Product_ID like 'OFF%';Exercises:
+sql/* Select cities where
+the region is north or east without duplicates
+using IN
+*/
+select distinct city from customer where region in ('North', 'East');
+
+/* Select list of orders where
+there are sales between 100 and 500 using between */
+select order_id from sales where sales between 100 and 500;
+
+/*
+Select list of customers whose
+last_name contains only 4 characters
+using like
+*/
+select customer_id from customer where customer_name like '% ____';SortingORDER BY
+Can only be used in SELECT statements and orders results by one or more columnsSyntax
+sqlselect column_name
+from table_name
+where condition
+order by column_name asc or desc;More than one column:
+sqlorder by col_1 asc, col_2 asc;Examples:
+sqlselect * from customer
+where state = 'California'
+order by Customer_name;
+
+=
+
+select * from customer
+where state = 'California'
+order by customer_name ASC;
+
+select * from customer
+order by 2 desc;
+
+select * from customer where age>25
+order by city asc,
+Customer_name desc;
+
+select * from customer
+order by age;SQL Question:
+Retrieve the first and last names of employees from the Employees table ordered by last name in alphabetical order.
+sqlselect FirstName, LastName from Employees
+order by LastName;BigQuery sorting examples:
+sqlselect * from DB.Sales where Product_ID like 'OFF%'
+order by Sales desc;
+
+select * from DB.Customer order by City, age desc;LIMIT
+Limits the number of records returned based on the limit valuesqllimit row_count;--goes at the endExamples:
+sqlselect * from customer where age >= 25 order by age desc limit 8;
+
+select * from customer where age >= 25 order by age asc limit 10;Udemy exercise:
+Select the 3 students ordered by age in desc order
+sqlselect Name, Age from Students order by Age desc limit 3;BigQuery
+LIMIT does not reduce query cost
+Ooooh, it's only a visual reduction illusion
+If you select some columns, you're only charged for that.ALIASVerb: AS
+Useful for changing column names in the result
+and for making shorter references.Syntax:
+sqlselect col as col_alias
+from table_name;Example:
+sqlselect cust_id as "serial_number", Customer_name as name from Customer;AS exercise:
+Select customer names and their order quantity from the orders table, renaming the quantity as total amount.
+sqlselect CustomerName, Amount as TotalAmount from Orders;COUNT
+Performs counting; it's an aggregation function.Syntax:
+sqlselect col_name, count (col_name2)
+from table_name;Examples:
+sqlselect count(*) from sales;
+
+select count(order_line) as "Number of Products Ordered",
+count (distinct order_id) as "Number of Orders"
+from sales where customer_id = 'CG-12520'Exercise:
+Count the number of orders in the Orders table
+sqlselect COUNT(*) from Orders;In BigQuery, alias names cannot have spaces and don't use quotes, e.g.:
+sqlselect count(order_line) as N_of_products_purchased,
+count(distinct order_id) as N_of_orders from DB.Sales where customer_id = 'CG-12520';SUM
+Sum, aggregate functionSyntax:
+sqlselect sum(profit) as "Total Profit" from sales;
+
+select sum(quantity) as "Total Quantity" from sales where product_id = 'FUR-TA-100000577';Exercise:
+Calculate the total orders in the Orders table.
+sqlselect SUM(Amount) from Orders;AVERAGESyntax:
+sqlselect avg(aggregate_expression)
+from tables
+where conditions;Examples:
+sqlselect avg(age) as "Average Customer Age" from customer;
+
+select avg(sales*10) as "Average Commission Value" from sales;Udemy exercise:
+Calculate the average order quantity in the Orders table.
+sqlselect AVG(Amount) from Orders;BigQuery:
+sqlselect avg(sales.sales*.10) as Avg_Comm_values from DB.Sales;MIN MAXSyntax:
+sqlselect min(aggregate_expression) from tables where;
+select max(aggregate_expression) from tables where;Examples:
+sqlselect min(sales) as "Minimum sales value June 15" from sales where order_date between '2015-06-01' and '2015-06-30';Exercises:
+Find minimum and maximum orders in Orders table.
+sqlselect MIN(Amount), MAX(Amount) from Orders;BigQuery:
+sqlselect max(sales.sales) as max_sales, min(sales.sales) as min_sales
+from DB.Sales where Order_Date between '2015-06-01' and '2015-06-30';GROUP BY commands
+Used in a SELECT statement to group results by one or more columnsSyntax:
+sqlselect col_name1, function type (col_2) from table
+group by col_1;Examples:
+sqlselect region, COUNT(customer_id) AS customer_count from customer Group by region;
+
+select product_id, SUM(quantity) as quantity_sold from sales
+group by product_id order by quantity_sold desc;
+
+select customer_id, min(sales) as min_sales, max(sales) as max_sales, avg(sales) as Average_sales,
+SUM(sales) AS Total_sales from sales group by customer_id
+order by total_sales desc limit 5;Exercise:
+Calculate the total orders (Amount column) from the Orders table by product.
+Small hint: if you group by product, it's worth selecting that column too.
+sqlselect Product, SUM(Amount) from Orders
+group by Product;BigQuery GROUP BY:
+sqlselect category, count(Product_ID) as product_count from DB.Product
+group by category;HAVING
+Used in combination with GROUP BY to apply a condition and only return those true for the condition
+It's a WHERE for aggregates hehe.Syntax:
+sqlselect columnnames, aggregate_function(expression)
+from tables
+where *optional*
+group by col
+having conditionExample:
+sqlselect region, count(customer_id) as customer_count
+from customer
+group by region
+having count(customer_id) > 200;HAVING exercise:
+sqlselect Product, SUM(Amount)
+from Orders group by Product
+having SUM(Amount) > 150;Comprehensive Exercise:
+Make a dashboard showing the following figures for each Product ID:
+a. Total sales in $ ordered by this column in descending
+b. Total sales quantity
+c. Number of orders
+d. Max sales value
+e. Min sales value
+f. Average sales value
+Get the list of product IDs where the quantity of product sold is greater than 10.
+Results:
+sqlselect product_id, sum(sales) as total_sales_dlls,
+sum(quantity) as total_sales_quantity,
+count(sales) as number_of_orders,
+max(sales) as max_sale, min(sales) as min_sale,
+avg(sales) as average_sales from sales group by product_id order by total_sales_dlls desc;
+
+select product_id, sum(sales) as total_sales_dlls,
+sum(quantity) as total_sales_quantity,
+count(sales) as number_of_orders,
+max(sales) as max_sale, min(sales) as min_sale,
+avg(sales) as average_sales from sales group by product_id having sum(quantity) > 10 order by total_sales_dlls desc;In the second query, you can decide whether to see so much info or just what's necessary.
+Product IDsqlselect product_id,
+sum(quantity) as total_sales_quantity,
+from sales group by product_id having sum(quantity) > 10 order by total_sales_dlls desc;Conditional statementCASE WHEN
+Similar to if-elseSyntax:
+(CASE WHEN condition is the if) THEN is the else
+sqlcase when condition then result
+END
+
+case expression
+when value then result
+*you can put another set or more WHENs and at the end an ELSE if none are met*
+endExamples:
+sqlselect *,
+case when age<40 then 'Young'
+    when age>60 then 'Senior Citizen'
+    else 'Middle aged'
+End as Age_category from customer;Seems to work well for feature engineering.Udemy exercise:
+Retrieve the names of customers from the Orders table along with a column that categorizes them as 'High Value' if their order amount is greater than $150, otherwise categorizes them as 'Standard Value'.sqlselect CustomerName, case
+    when Amount > 150 Then 'High Value'
+    else 'Standard Value'
+end as CustomerCategory from Orders order by CustomerName;JOINS
+Join tables to retrieve information from multiple tables.
+customer-product-salesThis way I can know how many products are sold with breakdown.
+Or who buys which products and how much they spend.Subqueries
+Perform multiple levels of analysis in a single queryAgenda
+
+Views: Used to save space and limit access to information
+Index: Improve retrieval time from a database.
+Why combine?
+"I want to allocate resources to different regions. Can you tell me sales by region?"
+-Marketing headSales data in sales table
+and region from customer tableKey in common: Customer_IDTo join tables you need to know:
+
+Names of tables to join
+Common column with which they'll be joined
+List of columns from each table we want to keep.
+Types of joins:INNER JOIN - simple
+What's in common
+Compares each row of table 1 with each row of table 2; common pairs are kept and together form a row.Syntax:
+sqlselect columns from table 1
+inner join table 2
+on table1.column = table2.column;Example:
+sqlselect
+a.order_line, a.product_id,
+a.customer_id, a.sales, b.customer_name,
+b.age
+from sales_2015 as a
+inner join customer_20_60 as b
+on a.customer_id = b.customer_id
+order by customer_id;Exercise:
+Retrieve customer names and products they have ordered
+sqlselect
+a.CustomerName,
+b.Product
+from Customers as a
+inner join Orders as b
+on a.CustomerID = b.CustomerID;BigQuery:
+sqlselect
+a.order_line,
+a.product_id,
+a.customer_id,
+a.sales,
+b.customer_name,
+b.age
+from DB.sales_2015 as a
+inner join Customer_20_60 as b
+on customer_id = customer_id
+order by DB.customer_id;LEFT / LEFT JOIN
+What's in the first table joined with what's in common from the second.Example:
+sqlselect a.order_line,
+a.product_id,
+a.sales,
+b.customer_name,
+b.age
+from sales_2015 as a
+left join customer_20_60 as b
+on a.customer_id = b.customer_id
+order by a.customer_id;Exercise:
+Retrieve customer names and products they have ordered.
+sqlselect
+a.CustomerName,
+b.Product
+from Customers as a
+inner join Orders as b
+on a.CustomerID = b.CustomerID;
+BigQuery:
+sqlselect
+a.order_line,
+a.product_id,
+a.customer_id,
+a.sales,
+b.customer_name,
+b.age
+from DB.sales_2015 as a
+inner join Customer_20_60 as b
+on customer_id = customer_id
+order by DB.customer_id;
+LEFT / LEFT JOIN
+What's in the first table joined with what's in common from the second.
+Example:
+sqlselect a.order_line,
+a.product_id,
+a.sales,
+b.customer_name,
+b.age
+from sales_2015 as a
+left join customer_20_60 as b
+on a.customer_id = b.customer_id
+order by a.customer_id;
+Exercise:
+Retrieve customer names and products they have ordered.
+sqlselect
+a.CustomerName,
+b.Product
+from Customers as a
+left join Orders as b
+on a.CustomerID = b.CustomerID;
+BigQuery:
+sqlselect
+a.order_line,
+a.product_id,
+a.sales,
+b.customer_name,
+b.age
+from DB.Sales_2015 as a
+left join DB.Customer_20_60 as b
+on a.Customer_ID = b.Customer ID
+order by a.customer_id;
+I had an issue with exact table names, that's why the backticks   with exact names that didn't follow snake_case.
+You can also change names with the following:
+sqlALTER TABLE `DB.Customer_20_60`
+RENAME COLUMN `Customer ID` TO Customer_ID;
+FULL / FULL JOIN
+What's in both tables. The broadest.
+Example:
+sqlselect
+a.order_line,
+a.product_id,
+a.customer_id,
+a.sales,
+b.customer_name,
+b.age,
+b.customer_id
+from sales_2015 as a
+full join customer_20_60 as b
+on a.customer_id = b.customer_id
+order by a.customer_id, b.customer_id;
+Exercise:
+Retrieve all customers and their orders including customers who haven't made orders and products that haven't been ordered.
+sqlselect
+a.CustomerName,
+b.Product
+from Customers as a
+full join Orders as b
+on a.CustomerID = b.CustomerID;
+BigQuery:
+sqlselect
+a.order_line,
+a.product_id,
+a.customer_id,
+a.sales,
+b.customer_name,
+b.age,
+b.customer_id
+from sales_2015 as a
+full join customer_20_60 as b
+on a.customer_id = b.customer_id
+order by a.customer_id, b.customer_id;
+*Same changes are made using backticks and database reference DB. uppercase.
+RIGHT / RIGHT JOIN
+What's in the second table joined with what's preserved in the first.
+Example:
+sqlselect
+a.order_line,
+a.product_id,
+a.sales,
+b.customer_id,
+b.customer_name,
+b.age
+from sales_2015 as a
+right join customer_20_60 as b
+on a.customer_id = b.customer_id
+order by a.customer_id;
+Exercise:
+Retrieve products that have been ordered and the names of customers who placed the orders
+sqlselect
+a.CustomerName,
+b.Product
+from Customers as a
+right join Orders as b
+on a.CustomerID = b.CustomerID;
+BigQuery:
+sqlselect
+a.order_line,
+a.product_id,
+a.sales,
+b.`customer id`,
+b.`customer name`,
+b.age
+from DB.Sales_2015 as a
+right join DB.Customer_20_60 as b
+on a.customer_id = b.`customer id`
+order by a.customer_id;
+Perspective also matters. A left and right can be the same if you reverse the order of tables to join in the syntax.
+CROSS JOIN or CARTESIAN JOIN
+Cartesian product between 2 data sets
+Syntax:
+sqlselect table1.column1, table2.column2
+from table1, table2
+sql--delete from month_values; #this is in case you make a mistake, drop the table and rewrite it haha.
+Examples:
+sqlcreate table month_values (MM integer);
+create table year_values (YYYY integer);
+
+insert into month_values values (1), (2), (3),(4), (5), (6),(7), (8), (9),(10), (11), (12);
+insert into year_values values (2011), (2012), (2013), (2014), (2015), (2016), (2017), (2018), (2019);
+
+select * from month_values;
+select * from year_values;
+
+select a.YYYY, b.MM
+from year_values as a, month_values as b
+order by a.YYYY, b.MM;
+It's cool, it does like a multiplication. All years with all months.
+Exercises:
+Combination of all customers and all products.
+sqlselect a.CustomerName,
+b.Product
+from Customers as a, Orders as b;
+BigQuery:
+I see the way you express values changes
+sqlcreate table DB_1.month_values (MM INT64);
+create table DB_1.year_values (MM INT64);
+
+insert into DB_1.month_values values (1), (2), (3),(4), (5), (6),(7), (8), (9),(10), (11), (12);
+insert into DB_1.year_values values (2011), (2012), (2013), (2014), (2015), (2016), (2017), (2018), (2019);
+
+select * from DB_1.month_values;
+select * from DB_1.year_values;
+
+select YYYY, MM
+from DB_1.year_values as a, DB_1.month_values as b
+order by YYYY, MM;
+--No reference needed because there are only those columns.
+/ Joins /
+sql/* Create sales table for year 2015 */
+create table sales_2015 as select * from sales where ship_date between '2015-01-01' and '2015-12-31';
+
+select count(*) from sales_2015; --2131
+
+select count(distinct customer_id) from sales_2015; --578
+
+/* Customers with age between 20 and 60 */
+
+create table customer_20_60 as select * from customer where age between 20 and 60;
+select count(*) from customer_20_60; --597
+BigQuery:
+sqlcreate table DB.Sales_2015 as select * from DB.Sales where Ship_Date between '2015-01-01' and '2015-12-31';
+Combining queries
+Combine 2 results from 2 SELECT queries
+select column A, column B from Table X
+    intersect, except, union
+select column A, column B from Table Y--The output structure from both queries must be the same.
+INTERSECT: What's in common
+EXCEPT: Removes what's in common
+UNION: Puts both together like a full join, but without expanding the structure since they already have the same structure.
+Using:
+UNION, INTERSECT and EXCEPT.Examples:
+sqlselect customer_id from sales_2015
+intersect
+select customer_id from customer_20_60Exercise:
+Retrieve the common customer names from customers and passengers tables
+sqlselect CustomerName from Customers
+intersect
+select PassengerName from PassengersEXCEPT
+Operator used to return all rows in a first SELECT statement that are not returned by the second SELECTSyntax:
+sqlSelect expression1, expression2, ...
+from tables
+where
+Except
+Select expression1, expression2,...
+from tables
+whereExercise:
+Retrieve products ordered
+by John Doe but not by Jane Smith
+from the Orders tablesqlselect Product
+from Customers as a
+join Orders as b on a.CustomerID = b.CustomerID
+where CustomerName = 'John Doe'
+except
+select Product
+from Customers as a
+join Orders as b on a.CustomerID = b.CustomerID
+where CustomerName = 'Jane Smith'BigQuery:
+Not only EXCEPT but also articulated with DISTINCTsqlselect customer_id from DB.Sales_2015
+except distinct
+select `customer id` from DB.Customer_20_60
+order by customer_id;UNION
+Combines results from 2 SELECT statements. Removes duplicates.Condition: same number of columns and data typesSyntax:
+sqlSelect expression1, expression2, ...
+from tables
+where
+union
+Select expression1, expression2,...
+from tables
+whereExample:
+Want to search for all customers, their IDs whether they're in one table or anothersqlselect customer_id from sales_2015
+union
+select customer_id from customer_20_60
+order by customer_id;Exercises:
+Retrieve the list of distinct products that have been ordered by both tablessqlselect distinct Product
+from Orders1
+union
+select distinct Product
+from Orders;BigQuery:
+UNION
+
+ALL or DISTINCT
+That's the difference from SQL
+sqlselect customer_id from DB.Sales_2015
+union distinct
+select `customer id` from DB.Customer_20_60
+order by customer_id;Exercise:
+Find the total sales in each state
+for customer_20_60 and sales_2015
+Use joins and group by
+Get info containing Product_id, product name, category, total sales of those products and total quantity sold
+Use sales and product tables
+sqlselect a.state,
+sum(b.sales) as total_sales_per_state
+from customer_20_60 as a
+left join sales_2015 as b
+on a.customer_id = b.customer_id
+group by a.state;
+
+select a.state,
+sum(b.sales) as total_sales_per_state
+from customer_20_60 as a
+left join sales_2015 as b
+on a.customer_id = b.customer_id
+group by a.state;
+
+SUBQUERIES
+Query within a query. Can go in WHERE, FROM, or SELECT
+Syntax:
+In WHERE:
+sqlselect col
+from table
+where col2 [comparison operator]
+(select col3 from table2 where condition)
+It seems that making a subquery uses ()
+Example:
+sqlselect * from sales where customer_id in
+    (select distinct customer_id
+    from customer where age>60);
+In FROM:
+sqlselect
+    a.product_id,
+    a.product_name,
+    a.category,
+    b.quantity
+from product as a
+left join (select product_id,
+                sum(quantity) as quantity
+                from sales group by product_id) as B
+on a.product_id=b.product_id
+order by b.quantity desc;
+In SELECT:
+sqlselect customer_id, order_line,
+(select customer_name from customer
+where sales.customer_id = customer.customer_id)
+from sales
+order by customer_id;
+Subquery Rules:
+
+Must be in parentheses
+A subquery can only have one column in the SELECT unless multiple columns are in the main query for the subquery to compare with the selected columns.
+An ORDER BY command cannot be used in a subquery, but the main query can. I don't understand this: GROUP BY can do the same function as ORDER BY in a subquery.
+Subqueries that return more than one row can only use multiple value operators like IN.
+The select list cannot include any references to values that evaluate to a BLOB, ARRAY, CLOB or NCLOB.
+A subquery cannot be immediately enclosed in a set function.
+The BETWEEN operator cannot be used with a subquery. However, the BETWEEN operator can be used within the subquery. Wow, that's crazy. Only in the subquery inside, it removes the ability to use it in the regular or main query.
+
+Exercise:
+Retrieve customer names who have ordered Widget A from the customer table
+I need CustomerName as output
+I have 2 tables: Customers and Orders
+I need to satisfy that they bought Widget A from Product
+Result:
+sqlselect
+    CustomerName
+from Customers
+where CustomerID in
+(select CustomerID from Orders
+where product = "Widget A")
+BigQuery --ideal format:
+sqlselect
+    *
+From
+    DB.Sales
+Where
+    customer_id IN (
+        SELECT
+            customer_id
+        FROM
+            DB.Customer
+        WHERE
+            age >60);
+Exercise:
+Get data with all columns of sales table and customer name,
+customer age, product name and category in the same result set
+sqlselect *
+from
+(select
+    a.customer_name,
+    a.customer_age,
+    b.product_name,
+    b.category
+from sales as s
+left join customers as c
+on s.customer_id = c.customer_id
+left join product as p
+on s.product_id = p.product_id
+) as combined;
+Can be done without subqueries with pure left join
+sqlSELECT
+s.*,
+c.customer_name,
+c.customer_age,
+p.product_name,
+p.category
+FROM sales AS s
+LEFT JOIN customers AS c
+    ON s.customer_id = c.customer_id
+LEFT JOIN product AS p
+    ON s.product_id = p.product_id;
+Also with a join inside and one outside following this logic
+pending to do it because of the time hehe
+sqlSELECT
+combined.*,
+r.region_name
+FROM (
+    SELECT
+        s.*,
+        p.product_name,
+        p.category
+    FROM sales AS s
+    LEFT JOIN product AS p
+        ON s.product_id = p.product_id
+) AS combined
+LEFT JOIN regions AS r
+    ON combined.region_id = r.region_id;
+VIEWS
+Not a physical table. It's a virtual table created by a query joining one or more tables
+
+Access to views can be controlled - security
+
+Syntax:
+sqlcreate or replace view view_name as
+select columns from tables
+where
+Example:
+sqlcreate view logistics as
+select a.order_line,
+    a.order_id,
+    b.customer_name,
+    b.city,
+    b.state,
+    b.country
+from sales as a
+left join customer as b
+on a.customer_id = b.customer_id
+order by a.order_line;
+--create or replace view can be used instead of just create view
+sqlselect * from logistics;
+-It's a segment of data that can also be sent. It's interesting.
+Drop or Update view
+Example:
+sqldrop view logistics;
+-Deletes it
+Exercise in views:
+Create a view named HighValueCustomers
+that shows the names and cities of customers
+who have made orders with an amount greater than 150.
+sqlCREATE VIEW HighValueCustomers AS
+SELECT
+    c.CustomerName,
+    c.City
+FROM Customers AS c
+INNER JOIN Orders AS o
+    ON c.CustomerID = o.CustomerID
+WHERE o.Amount > 150;
+INDEXES
+Faster. An index creates an entry for each value that appears in the indexed columns.
+Syntax:
+sqlCreate [unique] index_name
+on table_name
+(
+    index_col1 [asc/desc]
+    index_col2 [asc/desc]
+    index_coln [asc/desc]
+)
+Example:
+sqlcreate index mon_idx
+on month_values(MM);
+Can be deleted with:
+sqldrop index index_name [cascade | restrict] --how it affects what uses the index.
+
+alter index index_name
+rename to new_index_name;
+Rules or best practices:
+
+Indexes should be numeric
+Should not be null
+Only if necessary
+
+Exercise:
+Create an index on the Product column of Orders to optimize search queries based on products.
+sqlCREATE INDEX idx_product
+ON Orders (Product);
+BigQuery:
+There are no indexes in BigQuery
+More about indexes:
+https://www.youtube.com/watch?v=unY2X6j2L1o
+Exercise on views:
+Create a view which contains order_line, product_id, sales, and discount of the first
+order date in the sales table and name it as "Daily_Billing"
+Delete this view
+Views take up less space, in fact they don't take up space, and don't generate redundancy like having the same table twice. It's interesting how a query that doesn't run haha you can even export it
+I'm not entirely clear on it.
+
+STRING FUNCTIONS
+LENGTH
+Obtains the number of characters
+Example:
+sqlselect Customer_name, length(customer_name) as characters_num
+from customers
+where age > 30;
+
+select Customer_name, length(customer_name) as characters_num
+from customers
+where length(customer_name) > 15;
+Exercise:
+sqlselect Product, LENGTH(Product) from Orders;
+BigQuery:
+sqlselect *, length(Customer_name) as Cust_len from DB.Customer;
+UPPER and LOWER
+Example:
+sqlselect upper('Start-Tech-Academy')
+*Can be used to update tables.
+Exercise:
+Retrieve customer names in uppercase
+sqlselect UPPER(CustomerName) from Customers;
+BigQuery:
+sqlselect *, UPPER(Customer_name), LOWER(customer_name) from DB.Customer;
+REPLACE
+Syntax:
+sqlselect customer_name, country, replace(lower(country), 'united states', 'US') as country_new
+from customer;
+Exercise:
+Retrieve product names from the Orders table replacing 'Widget' with 'Item'.
+sqlselect REPLACE(Product, 'Widget', 'Item') from Orders;
+BigQuery:
+sqlselect *, replace(Country, 'United States', 'US') as Country_new from DB.Customer;
+TRIM, LTRIM, RTRIM
+TRIM removes all specified characters either from the beginning or end. RTRIM from the end or right. LTRIM from the left or beginning.
+Syntax:
+sqltrim([leading, trailing, both][trim_character] from string); --default both
+
+rtrim(string, trim_character)
+ltrim(string, trim_character)
+Examples:
+sqlselect trim(leading ' ' from ' Start-Tech Academy ');
+select trim(trailing ' ' from ' Start-Tech Academy ');
+select trim(' Start-Tech Academy ');
+select ltrim(' Start-Tech Academy ');
+select rtrim(' Start-Tech Academy ');
+Exercise:
+Retrieve product names without spaces
+sqlselect TRIM(Product) from Orders;
+CONCATENATION
+Joins strings
+sqlstring1 || string2 || string_n
+Example:
+sqlselect
+    customer_name,
+    city||' , '||state||' , '||country as Address
+FROM customer;
+Exercise:
+Get a list of customers and their city through concatenation of names and cities from the Customers table.
+sqlSELECT CustomerName, CustomerName || ' ' || City
+FROM Customers;
+BigQuery:
+sqlselect customer_id, City||" , "|| State || " , " || Country as Add_1, concat(City,' , ', State,' , ', Country) as Add_2
+FROM DB.Customer;
+Due to name details:
+sqlselect `Customer ID`, City||" , "|| State || " , " || Country as Add_1, concat(City,' , ', State,' , ', Country) as Add_2
+FROM DB.Customer;
+SUBSTRING
+Syntax:
+sqlselect
+customer_id,
+customer_name,
+SUBSTRING(customer_id FOR 2) as cust_group
+from customer
+where substring(customer_id for 2) = 'AB';
+
+select
+    Customer_id,
+    Customer_name,
+    SUBSTRING(Customer_id FROM 4 FOR 5) AS cust_number
+FROM customer
+where SUBSTRING(Customer_id FOR 2) = 'AB';
+Exercise:
+Retrieve the first 3 characters of each product from the Orders table.
+sqlselect
+    Product,
+    SUBSTRING(PRODUCT)
+from customer
+where Substring(PRODUCT) = '____';
+
+select
+SUBSTRING(Product, 1, 3)
+from Orders;
+BigQuery:
+It's just substr(val, start, length)
+Example:
+sqlselect customer_id, substr(customer_id, 1, 2) as cust_grp, substr(customer_id, 4, 5) as cust_n from DB.Customer;
+STRING AGGREGATION (LIST AGGREGATION)
+Combines results from multiple columns into one.
+Syntax:
+sqlstring_agg(expression, delimiter)
+Example:
+sqlselect
+    order_id,
+    STRING_AGG(product_id, ',')
+from sales
+group by order_id;
+BigQuery:
+sqlSELECT order_id, string_agg(Product_ID, ', ') as Product_list from DB.Sales group by order_id;
+Exercise 13:
+
+Find Maximum length of characters in the Product name string from Product table
+Retrieve product name, sub-category and category from Product table and an additional col name 'product_details' which contains a concatenated string of product name, sub-category and category.
+Analyze the product_id col and take out the three parts composing the product_id in three different columns
+List down comma separated product name where sub_category is either Chairs or Tables
+
+sql/* Exercises 13 */
+
+/*
+1.Find Maximum length of characters in the Product name string from Product table
+2.Retrieve product name, sub-category and category from Product table and an additional col name 'product_details' which contains a concatenated string of product name, sub-category and category.
+3. Analyze the product_id col and take out the three parts composing the product_id in three different columns
+4. List down comma separated product name where sub_category is either Chairs or Tables
+*/
+
+--1
+select
+    product_name,
+    max(length(product_name))
+from Product
+group by product_name
+order by max(length(product_name)) desc;
+--I added grouping and ordering out of curiosity, wanted to know which product it was
+
+--2
+select
+    product_name,
+    sub_category,
+    category,
+    product_name||', '||sub_category||', '||category as prod_name_subcat_cat
+from Product;
+
+--3. It's a string separation
+select product_id from product; --has 3 parts apparently divided by hyphens
+
+SELECT ASCII(SUBSTRING(product_id, 5, 1)) AS ascii_code, product_id
+FROM product
+LIMIT 5; --there are atypical invisible characters preventing separation by hyphens.
+
+
+select
+    product_id,
+    split_part(REGEXP_REPLACE(product_id, '[^\x20-\x7E]', '', 'g'), '-', 1) as product_id_part1,
+    split_part(REGEXP_REPLACE(product_id, '[^\x20-\x7E]', '', 'g'), '-', 2) as product_id_part2,
+    split_part(REGEXP_REPLACE(product_id, '[^\x20-\x7E]', '', 'g'), '-', 3) as product_id_part3
+from product; --achieved
+
+--4
+--Check product_name
+select product_name from product;
+
+--Check sub_category
+select distinct sub_category from product; --Chairs and Tables, no grammar errors
+
+--The instruction isn't entirely clear to me, I'll select the names where the subcategory is chairs or tables.
+select product_name, sub_category
+from product
+where sub_category in ('Chairs', 'Tables')
+order by sub_category; --ordering is optional
+
+--I think they wanted an aggregate aaah
+select sub_category,
+string_agg(product_name, ',') as prod_subcat_list from product
+where sub_category in ('Chairs', 'Tables') group by sub_category;
+
+MATHEMATICAL FUNCTIONS
+CEIL & FLOOR
+CEIL returns the smallest integer greater than or equal to a number
+FLOOR returns the largest integer less than or equal to a number.
+Literally ceiling and floor.
+Example:
+sqlselect order_line, sales, ceil(sales), floor(sales) from sales;
+Retrieve the Amount col and ceiling values from the orders table.
+sqlselect
+Amount, CEIL(Amount)
+from Orders;
+BigQuery:
+sqlselect order_line, profit, floor(profit), ceil(profit) from DB.Sales;
+Use round(var, 2) for number of decimals. --regular is integer
+RANDOM
+Random number between 0 and 1
+sqlrandom()
+Example:
+Decimal:
+sqlselect random()*(b-a)+a
+select floor(random()*(b-a+1)+a)+a;
+sql/* Random a=10, b=50 */
+select random(), random()*40+10, floor(random()*40+10)
+BigQuery:
+sqlrand();
+If you want between 2 values:
+sqlselect *, rand() from DB.Customer where rand()<0.1;
+--Random set of quantity of values according to 90% chance of staying for each record.
+SETSEED
+Syntax: setseed(0.5)
+Between 1 and -1 inclusive.
+Always gives you the same value. Provides reproducibility.
+BigQuery:
+No equivalent.
+ROUND
+sqlround(number)
+
+select
+    order_line,
+    sales,
+    round(sales)
+from sales order by sales desc;
+Exercises:
+Retrieve Amount and rounded from Orders
+sqlselect
+Amount,
+ROUND(Amount)
+from Orders;
+POWER
+sqlPower(m, n)
+
+select POWER(6, 2)
+select age, power(age, 2) from customer order by desc;
+Exercises 14:
+Retrieve Amount and POWER(Amount, 2) from Orders;
+sqlselect
+Amount, POWER(Amount, 2)
+from Orders;
+BigQuery:
+sqlpow(3,3);
+Exercises 14 -pending-
+
+You are running a lottery for your customers. So, pick a list of 5 lucky customers from customer table using random function
+Suppose you cannot charge the customer in fraction points. So, for sales value of 1.63, you will get either 1 or 2. In such a scenario, find out:
+a) Total sales revenue if you are charging the lower integer value of sales always
+b) Total sales revenue if you are charging the higher integer value of sales always
+c) Total sales revenue if you are rounding off the sales always
+
+
+DATE-TIME FUNCTIONS -17
+sqlcurrent_date
+current_time([])
+current_timestamp([])
+'YYYY-MM-DD'
+'HH:MM:SS.GMT+TZ'
+Examples:
+sqlselect current_date()
+Exercise:
+sqlselect CURRENT_TIMESTAMP;
+BigQuery:
+Mentions time zone instead of decimal precisions.
+'US/Eastern' - put the timezone of the data.
+timestamp() without time zone.
+AGE
+sqlage([date1,] date2) --if date1 is not used, current is used.
+Examples:
+sqlselect age('2014-04-25', '2014-01-01');
+
+select order_line, order_date, ship_date, age(ship_date, order_date) as time_taken
+from sales
+order by time_taken desc;
+BigQuery:
+sqlDate_DIFF(date_expression_1_end, date_expression_2_since, date_part) #year, quarter, month, week, day
+
+select order_line, ship_date, order_date,
+date_diff(ship_date, order_date, day) as time_taken
+from DB.Sales
+order by time_taken desc;
+EXTRACT
+Syntax:
+sqlextract('unit' from 'date')
+day, decade, doy, epoch, hour, minute, month, second, year
+Example:
+sqlselect extract(day from current_timestamp);
+select extract(minute from current_timestamp);
+select order_line, ship_date,
+(extract(epoch from ship_date) - extract(epoch from order_date)) as sec_taken
+from sales;
+BigQuery:
+sqlselect extract(second from current_timestamp);
+Exercise -pending-
+
+Find out the current age of "Batman" who was born on "April 6, 1939" in Years, months and days
+Analyze and find out the monthly sales of sub-category chair. Do you observe any seasonality in sales of this sub-category
+
+
+PATTERN STRING MATCHING
+LIKE
+Syntax:
+Only % and _
+sqlselect * from customer_table where first_name Like 'Jo%';
+'%od%';
+'J%';
+Exercise:
+sqlSELECT name
+FROM Students
+WHERE name LIKE 'Ja%';
+SIMILAR TO
+Syntax:
+~ (Regular Expressions)
+Syntax:
+Wildcards:
+|, , +, ?, {m}, {m, }, {m,n},^,$,[], ~, ~
+Different wildcards than LIKE.
+Examples:
+sqlselect * from customer where customer_name ~*'^a+[a-z\s]+$'
+
+/* Pattern matching */
+
+select * from customer
+where customer_name ~*'^a+[a-z\s]+$';
+
+--Names starting with a, b, c or d.
+select * from customer
+where customer_name ~*'^(a|b|c|d)+[a-z\s]+$';
+
+--Having a character repeated 3 times from a to z and then one 4 times. So only 4-letter first and last names.
+select * from customer
+where customer_name ~*'^(a|b|c|d)[a-z]{3}\s[a-z]{4}$';
+
+--Valid emails
+create table users(id serial primary key, name character varying);
+insert into users(name) values
+('Alex'), ('Jon Snow'), ('Christopher'), ('Arya'),
+('Sandip Debnath'), ('Lakshmi'), ('alex@gmail.com'), ('sandip5004'), ('lakshmi@gmail.com');
+
+select * from users
+where name ~*'[a-z0-9\.\-\_]+@[a-z0-9\.\-]+\.[a-z]{2,5}';
+BigQuery:
+sqlREGEXP_contains(var, r'');
+REGEXP_replace()
+Exercises --pending--
+
+Find out all customers who have first name and last name of 5 characters each and last name starts with "a|b|c|d"
+Create a table "zipcode" and insert the below data in it
+Pin/Zip codes:
+234432, 23345, sdfe4, 123^3, 67424, 7895432, 12312
+Find out the valid zipcodes from this table (5 or 6 numeric characters)
+
+
+GOOGLE DATA STUDIO FOR VISUALIZING BIGQUERY DATA
+Another product
+Visualizes BigQuery information
+BigQuery report in Data Studio
+Best practices: continue with HackerRank
+Showcasing SQL Skills with HackerRank Stars
+In order to excel in SQL, it is important to practice and improve your skills.
+One of the best ways to do this is by using HackerRank, a popular platform for practicing coding skills.
+By using HackerRank, you can improve your SQL skills and demonstrate your proficiency to potential employers or academic institutions.
+It's important to have certifications and badges such as HackerRank stars to showcase your skills and proficiency in SQL.
+In this lecture, we will be providing you with a link to a YouTube playlist that will guide you on how to get a 3-star rating in the SQL topic on HackerRank.
+Resources:
+https://www.youtube.com/watch?v=w1FG8YfwJM0&list=PL41qI9AD63BOQYp_h0GOYrsEC67PBas8R&index=1
+Comprehensive Interview Preparation Questions
+If you are determined to master the essential skills in the field of data analytics, consistent practice and learning are key.
+To help you on this path, we have compiled a set of valuable resources, each containing carefully selected interview questions and detailed answers for the most widely used tools in data analytics:
+Excel, SQL, Power BI, Tableau, and Machine Learning.
+Resources to test:
+
+Excel: https://starttechacademy.com/excel-interview-questions/
+SQL: https://starttechacademy.com/sql-interview-questions/
+Tableau: https://starttechacademy.com/tableau-interview-questions/
+ML: https://starttechacademy.com/machine-learning-interview-questions/
+PowerBI: https://starttechacademy.com/power-bi-interview-questions/
+
+Certificate yay!
+In the registered email or in certificates in about this course.
+About your certificate
+After this lecture, you will receive the course completion certificate from Udemy in your registered email ID. Let your peers and prospective employers know about your new skill. Sharing your certificate on social media sites, especially LinkedIn, is a great way to do this. You can tag us (@start-tech academy) when you post your certificate for more credibility.
+If you face any issue related to your certificate, visit this link for more information: https://support.udemy.com/hc/en-us/articles/229603868-Certificate-of-Completion
