@@ -1,5 +1,6 @@
 
 
+
 Lección 3 
 Hacer tablas de costumers, products, 
 Create table "table_name"( 
@@ -619,7 +620,8 @@ Group by commands
         sum(quantity) as total_sales_quantity, 
         count(sales) as number_of_orders, 
         max(sales) as max_sale, min(sales) as min_sale, 
-        avg(sales) as average_sales from sales group by product_id having sum(quantity) > 10 order by total_sales_dlls desc 
+        avg(sales) as average_sales from sales group by product_id having 
+        sum(quantity) > 10 order by total_sales_dlls desc 
         ;
 
         En el segundo query se puede decidir si ver tanta info o solo lo necesario.
