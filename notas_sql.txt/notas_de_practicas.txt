@@ -1147,12 +1147,12 @@ Agenda
         select * 
         from
         (select
-        	a.customer_name, 
-        	a.customer_age,
-        	b.product_name, 
-        	b.category
+        	c.customer_name, 
+        	c.customer_age,
+        	p.product_name, 
+        	p.category
         from sales as s
-        left join customers as c
+        left join customer as c
         on s.customer_id = c.customer_id
         left join product as p 
         on s.product_id = p.product_id

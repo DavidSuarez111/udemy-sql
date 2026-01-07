@@ -104,10 +104,48 @@ GROUP BY
 		pending
 */ 
 
+--Get data with all columns of sales table and customer_name, customer_age, product_name and category
+	-- A join between 3 tables will be made. Alternatively it can be made with left joins instead of subqueries.
+SELECT *
+FROM 
+	(SELECT 
+		c.customer_name, 
+		c.age, 
+		p.product_name, 
+		p.category
+	FROM 
+		sales as s
+LEFT JOIN
+	customer as c
+ON 
+	s.customer_id = c.customer_id
+LEFT JOIN 
+	product as p
+ON 
+	s.product_id = p.product_id) as combined; -- in this query combined table gets formed where columns of sales are filtered by the data of customer and product. 
+	-- Left to filter based on combined 
+
+SELECT 
+	s.*, 
+	c.customer_name, 
+	c.age, 
+	p.product_name,
+	p.category
+FROM 
+	sales AS s 
+LEFT JOIN 
+	customer AS c
+ON s.customer_id = c.customer_id
+LEFT JOIN 
+	product as p
+ON 
+	s.product_id = p.product_id;
+--the easy left join version 
+
 
 
 /* 
-
+	Pattern Matching
 */ 
 
 
